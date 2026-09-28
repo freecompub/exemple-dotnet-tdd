@@ -22,16 +22,24 @@ en quelques lignes et que l'attention aille au déroulé des agents, pas au mét
 
 ## Pré-requis
 
-Un **SDK .NET 8 ou plus récent** :
+Le projet cible **`net10.0`**, et il faut le **runtime** correspondant, pas seulement le SDK :
 
 ```bash
-brew install --cask dotnet-sdk
-dotnet --list-sdks     # doit afficher 8.x ou plus
+dotnet --list-sdks       # 10.x
+dotnet --list-runtimes   # Microsoft.NETCore.App 10.x doit y figurer
 ```
 
-Un SDK ancien (≤ 6) ne charge pas `JunitXml.TestLogger` : `dotnet test` s'exécute, mais aucun
-rapport n'est écrit, et **toutes les portes d'agent-studio se déclarent indisponibles**. Elles le
-disent plutôt que de conclure à tort, mais aucun agent ne peut alors travailler.
+Deux pièges rencontrés en montant ce projet, tous deux muets jusqu'à l'exécution :
+
+- **SDK moderne mais runtime absent.** La compilation réussit, puis le processus de test refuse de
+  démarrer (« You must install or update .NET to run this application »). Le rapport JUnit est alors
+  écrit, mais **vide** — `<testsuites />`. agent-studio le signale comme un avertissement : un
+  rapport lisible sans aucun test veut dire que rien n'a été mesuré.
+- **SDK ancien (≤ 6).** `JunitXml.TestLogger` ne se charge pas, et l'erreur est laconique :
+  « Impossible de localiser un enregistreur d'événements de test ». Aucun rapport n'est écrit, et
+  toutes les portes se déclarent indisponibles.
+
+Pour changer de version cible, une seule ligne : `TargetFramework` dans `Directory.Build.props`.
 
 ## Vérifier que la chaîne marche, avant de lancer un agent
 
@@ -51,16 +59,26 @@ Si ce fichier n'apparaît pas, rien d'autre ne fonctionnera : reprendre par là.
 4. `/skraft stories/US-2.md` — déroule la story de la recherche à la livraison.
 5. `/tdd` — pour une fonctionnalité décrite en langage courant, sans passer par une story.
 
-## Ce qui a été vérifié, et ce qui ne l'a pas été
+## Ce qui a été vérifié
 
-**Vérifié**, en faisant tourner le code d'agent-studio sur ces fichiers :
+Toute la chaîne, en faisant tourner le code réel d'agent-studio contre ce projet :
 
 - les trois stories sont lues par `parseStory` — identifiants, critères numérotés, littéraux ;
-- `.agent-studio/stack.yaml` est accepté par `parseStackProfile` et déclare ses quatre canaris ;
-- le motif `buildErrors` classe correctement de vraies erreurs du compilateur C# — `CS0103` et
-  `CS0246` en `missing_symbol`, `CS1002` (« ; expected ») en `other_error`.
+- `.agent-studio/stack.yaml` est accepté par `parseStackProfile` ;
+- `dotnet test` compile, passe ses quatre tests et écrit un JUnit XML que notre lecteur relit
+  correctement, identifiants compris ;
+- **les quatre canaris ressortent `ok`** en exécution réelle : un test trivial passe, une assertion
+  fausse est classée `assertion`, un symbole absent `missing_symbol`, et une syntaxe cassée
+  `other_error` — donc rejetée par la porte RED, ce qui est tout l'enjeu.
 
-**Non vérifié** : la compilation et les tests eux-mêmes. La machine sur laquelle ce projet a été
-écrit n'a qu'un SDK 3.0, de 2019, incapable de charger l'enregistreur JUnit. Les versions de paquets
-de `tests/Dosage.Tests.csproj` n'ont donc pas été confrontées à un vrai `dotnet restore`. Commencer
-par la section « Vérifier que la chaîne marche » ci-dessus.
+### Le classement se fait sur les CODES d'erreur, pas sur les messages
+
+Première version du profil : `missingSymbol` listait des bouts de phrases anglaises (« does not
+exist in the current context »). Les canaris l'ont refusée en exécution réelle, et ils avaient
+raison — **le compilateur est traduit** : sur cette machine il écrit « Le nom 'x' n'existe pas dans
+le contexte actuel ». Aucune sous-chaîne anglaise ne pouvait matcher, et un symbole absent ressortait
+en `other_error`, ce qui aurait bloqué chaque cycle TDD.
+
+Le profil capture donc le **code** (`CS0103`, `CS0246`, `CS1061`…) avec le message, et classe
+dessus. Les codes ne changent pas d'une langue à l'autre. À retenir pour tout profil visant un
+compilateur : viser ce que l'outil ne traduit pas.
