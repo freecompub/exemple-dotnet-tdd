@@ -1,4 +1,4 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <!-- Le domaine ne dépend de RIEN : ni infrastructure, ni interface, ni paquet tiers.
-       C'est cette absence que la lentille d'architecture de skraft vérifie. -->
+       C'est cette absence que la lentille d'architecture vérifie. -->
 </Project>

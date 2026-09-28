@@ -4,10 +4,10 @@
 # une erreur de compilation — pour qu'aucun adaptateur écrit en TypeScript ne soit nécessaire.
 id: dotnet
 
-detect: [Dosage.sln]
+detect: [Tarification.sln]
 
 # `dotnet test` ne produit pas de JUnit XML nativement : c'est le paquet JunitXml.TestLogger,
-# référencé par tests/Dosage.Tests, qui l'ajoute (voir docs/adr/adr-002-*).
+# référencé par tests/Tarification.Tests, qui l'ajoute (voir docs/adr/adr-002-*).
 tests:
   command: [dotnet, test, --nologo, --logger, "junit;LogFilePath={rapport}"]
   report: junit-xml
@@ -48,37 +48,37 @@ buildErrors:
 # classement attendu. `{marque}` est remplacée par un identifiant unique.
 canaries:
   - kind: passed
-    file: tests/Dosage.Tests/Canari{marque}Tests.cs
+    file: tests/Tarification.Tests/Canari{marque}Tests.cs
     content: |
       using Xunit;
-      namespace Dosage.Tests;
+      namespace Tarification.Tests;
       public class Canari{marque}Tests
       {
           [Fact] public void Canari{marque}() => Assert.Equal(1, 1);
       }
   - kind: assertion
-    file: tests/Dosage.Tests/Canari{marque}Tests.cs
+    file: tests/Tarification.Tests/Canari{marque}Tests.cs
     content: |
       using Xunit;
-      namespace Dosage.Tests;
+      namespace Tarification.Tests;
       public class Canari{marque}Tests
       {
           [Fact] public void Canari{marque}() => Assert.Equal(1, 2);
       }
   - kind: missing_symbol
-    file: tests/Dosage.Tests/Canari{marque}Tests.cs
+    file: tests/Tarification.Tests/Canari{marque}Tests.cs
     content: |
       using Xunit;
-      namespace Dosage.Tests;
+      namespace Tarification.Tests;
       public class Canari{marque}Tests
       {
           [Fact] public void Canari{marque}() => MethodeAbsente{marque}();
       }
   - kind: syntax
-    file: tests/Dosage.Tests/Canari{marque}Tests.cs
+    file: tests/Tarification.Tests/Canari{marque}Tests.cs
     content: |
       using Xunit;
-      namespace Dosage.Tests;
+      namespace Tarification.Tests;
       public class Canari{marque}Tests
       {
           [Fact] public void Canari{marque}() => :::

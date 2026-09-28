@@ -1,13 +1,13 @@
-# US-1 — Plafonner le bolus proposé
+# US-1 — Chiffrer un panier ligne à ligne
 
-En tant que patient, quand le calcul propose une dose de bolus supérieure au plafond défini par mon médecin,
-je veux que la dose proposée soit limitée à ce plafond et qu'une alerte m'explique pourquoi.
+En tant que client, je veux voir le total de mon panier calculé à partir de chaque ligne,
+afin de comprendre ce que je paie avant d'aller plus loin.
 
 ## Critères d'acceptation
-1. Plafond de 10 U, calcul à 6 U : dose proposée 6 U, pas d'alerte.
-2. Plafond de 10 U, calcul à 12,5 U : dose proposée 10 U, alerte « Dose plafonnée à 10 U ».
-3. Aucun plafond configuré : dose proposée égale au calcul, pas d'alerte.
+1. Une ligne « MUG-01 » de 3 articles à 4,50 € : somme des articles 13,50 €.
+2. Deux lignes, « MUG-01 » 3 × 4,50 € et « STY-07 » 2 × 1,20 € : somme des articles 15,90 €.
+3. Panier vide : somme des articles 0,00 €.
 
 ## Notes
-Story **déjà livrée**, gardée comme référence : elle montre la forme attendue, et ses tests
-donnent aux portes une base verte. Voir `tests/Dosage.Tests/CalculDeBolusTests.cs`.
+Story **déjà livrée**, gardée comme référence de forme. Ses tests donnent aux portes une base
+verte : voir `tests/Tarification.Tests/CalculDuPanierTests.cs`.

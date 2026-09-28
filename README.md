@@ -1,24 +1,30 @@
 # exemple-dotnet-tdd — projet d'essai pour `/tdd` et `/skraft`
 
-Petit projet .NET destiné à **faire tourner les agents d'agent-studio sur du vrai code** : une US à
+> Domaine neutre, sans rapport avec un produit existant.
+
+Petit projet .NET destiné à **faire tourner les agents d'agent-studio sur du vrai code** : des US à
 livrer, des ADR à respecter, une suite de tests qui donne aux portes de quoi mesurer.
 
-Le domaine est volontairement étroit — plafonner une dose d'insuline — pour que les règles tiennent
-en quelques lignes et que l'attention aille au déroulé des agents, pas au métier.
+Le domaine est la **tarification d'un panier** : volontairement banal, pour que l'attention aille au
+déroulé des agents et non au métier. Six stories, dont une seule livrée — de quoi relancer les
+agents plusieurs fois sur du terrain neuf.
 
 ## Ce que le projet contient
 
 | Chemin | Rôle |
 | --- | --- |
-| `stories/US-1.md` | **Déjà livrée.** Sert de référence de forme, et donne une base verte aux portes. |
-| `stories/US-2.md` | À livrer : plafond journalier. Cinq critères, deux questions ouvertes. |
-| `stories/US-3.md` | À livrer : arrondi au pas de l'instrument. Dépend de l'ordre d'application avec le plafond. |
+| `stories/US-1.md` | **Déjà livrée.** Chiffrage ligne à ligne. Sert de référence de forme et donne une base verte aux portes. |
+| `stories/US-2.md` | Remise par palier de quantité. 5 critères, 1 question ouverte. |
+| `stories/US-3.md` | Code promotionnel. 5 critères, 2 questions — dont le cumul avec l'US-2. |
+| `stories/US-4.md` | Frais de port offerts au-delà d'un seuil. Dépend de l'ordre d'application avec les remises. |
+| `stories/US-5.md` | Arrondi au centime. La story la plus piégeuse : elle porte sur l'ordre des opérations. |
+| `stories/US-6.md` | Refus si stock insuffisant. Introduit un catalogue, donc une dépendance extérieure. |
 | `docs/adr/adr-001-*.md` | Découpage domaine / application. La lentille d'architecture s'y réfère. |
 | `docs/adr/adr-002-*.md` | Pourquoi les tests produisent du JUnit XML. |
 | `.agent-studio/stack.yaml` | Profil de stack : commande de test, emplacements, erreurs de compilation, canaris. |
-| `src/Dosage.Domaine` | Règles métier. Ne dépend de **rien**. |
-| `src/Dosage.Application` | Cas d'usage. Dépend du domaine, et de lui seul. |
-| `tests/Dosage.Tests` | Tests unitaires et d'acceptance. |
+| `src/Tarification.Domaine` | Règles métier. Ne dépend de **rien**. |
+| `src/Tarification.Application` | Cas d'usage. Dépend du domaine, et de lui seul. |
+| `tests/Tarification.Tests` | Tests unitaires et d'acceptance. |
 
 ## Pré-requis
 
@@ -56,16 +62,16 @@ Si ce fichier n'apparaît pas, rien d'autre ne fonctionnera : reprendre par là.
 2. `/stack` — doit annoncer la stack **`dotnet`, déclarée** par `.agent-studio/stack.yaml`.
 3. `/stack doctor` — éprouve le profil en l'exécutant : les quatre canaris doivent ressortir `ok`.
    C'est à faire **avant** tout agent : si le classement des échecs est faux, les portes le seront aussi.
-4. `/skraft stories/US-2.md` — déroule la story de la recherche à la livraison.
+4. `/skraft stories/US-2.md` — déroule la story de la recherche à la livraison. Puis US-3, US-4, US-5, US-6 : cinq essais indépendants.
 5. `/tdd` — pour une fonctionnalité décrite en langage courant, sans passer par une story.
 
 ## Ce qui a été vérifié
 
 Toute la chaîne, en faisant tourner le code réel d'agent-studio contre ce projet :
 
-- les trois stories sont lues par `parseStory` — identifiants, critères numérotés, littéraux ;
+- les six stories sont lues par `parseStory` — identifiants, critères numérotés, littéraux ;
 - `.agent-studio/stack.yaml` est accepté par `parseStackProfile` ;
-- `dotnet test` compile, passe ses quatre tests et écrit un JUnit XML que notre lecteur relit
+- `dotnet test` compile, passe ses cinq tests et écrit un JUnit XML que notre lecteur relit
   correctement, identifiants compris ;
 - **les quatre canaris ressortent `ok`** en exécution réelle : un test trivial passe, une assertion
   fausse est classée `assertion`, un symbole absent `missing_symbol`, et une syntaxe cassée

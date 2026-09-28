@@ -1,14 +1,15 @@
-# US-3 — Arrondir la dose au pas de l'instrument
+# US-3 — Code promotionnel sur le panier
 
-En tant que patient, je veux que la dose proposée soit arrondie au pas que mon stylo sait délivrer,
-afin de ne pas lire une valeur que je ne peux pas administrer.
+En tant que client, je veux saisir un code promotionnel qui réduit le total de mon panier,
+afin de profiter d'une offre reçue par courriel.
 
 ## Critères d'acceptation
-1. Pas de 0,5 U, dose calculée 6,3 U : dose proposée 6 U.
-2. Pas de 0,5 U, dose calculée 6,8 U : dose proposée 6,5 U.
-3. Pas de 1 U, dose calculée 6,8 U : dose proposée 6 U.
-4. L'arrondi se fait toujours vers le BAS : une dose arrondie ne doit jamais dépasser le calcul.
-5. L'arrondi s'applique après le plafond, jamais avant.
+1. Code « BIENVENUE10 » valant 10 %, somme des articles 50,00 € : remise 5,00 €.
+2. Code inconnu « NIMPORTEQUOI » : remise 0,00 €, et le motif « Code promotionnel inconnu » est rendu au client.
+3. Code « BIENVENUE10 » plafonné à 4,00 €, somme des articles 50,00 € : remise 4,00 €.
+4. Aucun code saisi : remise 0,00 €, aucun motif.
+5. Un code ne peut jamais rendre le total négatif : code de 100 % sur 50,00 € donne un total de 0,00 €.
 
 ## Questions ouvertes
-- Le pas dépend-il du stylo, du patient, ou des deux ?
+- Un code promotionnel se cumule-t-il avec les remises par palier de l'US-2, ou l'emporte-t-il ?
+- Un code expiré est-il « inconnu », ou mérite-t-il un motif distinct ?

@@ -1,6 +1,0 @@
-<Project Sdk="Microsoft.NET.Sdk">
-  <ItemGroup>
-    <!-- L'application dépend du domaine, jamais l'inverse. -->
-    <ProjectReference Include="../Dosage.Domaine/Dosage.Domaine.csproj" />
-  </ItemGroup>
-</Project>

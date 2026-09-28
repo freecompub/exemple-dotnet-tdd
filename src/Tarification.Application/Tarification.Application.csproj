@@ -1,0 +1,5 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="../Tarification.Domaine/Tarification.Domaine.csproj" />
+  </ItemGroup>
+</Project>

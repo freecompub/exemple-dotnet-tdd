@@ -1,9 +1,9 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dosage.Domaine", "src\Dosage.Domaine\Dosage.Domaine.csproj", "{11111111-1111-1111-1111-111111111111}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tarification.Domaine", "src\Tarification.Domaine\Tarification.Domaine.csproj", "{11111111-1111-1111-1111-111111111111}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dosage.Application", "src\Dosage.Application\Dosage.Application.csproj", "{22222222-2222-2222-2222-222222222222}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tarification.Application", "src\Tarification.Application\Tarification.Application.csproj", "{22222222-2222-2222-2222-222222222222}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dosage.Tests", "tests\Dosage.Tests\Dosage.Tests.csproj", "{33333333-3333-3333-3333-333333333333}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tarification.Tests", "tests\Tarification.Tests\Tarification.Tests.csproj", "{33333333-3333-3333-3333-333333333333}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
