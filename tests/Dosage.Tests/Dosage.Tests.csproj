@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
+    <PackageReference Include="xunit" Version="2.9.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2" />
+    <!-- agent-studio ne sait lire que le JUnit XML : sans cet enregistreur, aucune porte
+         ne peut mesurer quoi que ce soit. Voir .agent-studio/stack.yaml. -->
+    <PackageReference Include="JunitXml.TestLogger" Version="4.1.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../src/Dosage.Domaine/Dosage.Domaine.csproj" />
+    <ProjectReference Include="../../src/Dosage.Application/Dosage.Application.csproj" />
+  </ItemGroup>
+</Project>

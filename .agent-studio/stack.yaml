@@ -1,0 +1,78 @@
+# Profil de stack .NET pour agent-studio.
+#
+# Il décrit la chaîne de ce projet — comment lancer les tests, où vivent les fichiers, comment lire
+# une erreur de compilation — pour qu'aucun adaptateur écrit en TypeScript ne soit nécessaire.
+id: dotnet
+
+detect: [Dosage.sln]
+
+# `dotnet test` ne produit pas de JUnit XML nativement : c'est le paquet JunitXml.TestLogger,
+# référencé par tests/Dosage.Tests, qui l'ajoute (voir docs/adr/adr-002-*).
+tests:
+  command: [dotnet, test, --nologo, --logger, "junit;LogFilePath={rapport}"]
+  report: junit-xml
+
+layout:
+  acceptanceTests: ["tests/**/*AcceptanceTests.cs"]
+  unitTests: ["tests/**/*.cs"]
+  sources: ["src/**/*.cs"]
+
+# Ce qu'un domaine ne doit jamais importer. La lentille d'architecture s'en sert.
+infrastructureModules: [Microsoft.AspNetCore, Microsoft.EntityFrameworkCore, System.Data, System.Net.Http, Dapper, Npgsql]
+
+# C# est compilé : un symbole absent ARRÊTE la compilation, et `dotnet test` ne produit alors
+# aucun rapport de tests. Sans cette section, le rouge le plus courant du cycle TDD — « la méthode
+# que je viens d'appeler n'existe pas encore » — n'atteindrait jamais la porte.
+#
+# Format d'une erreur du compilateur C# :
+#   src/Dosage.Domaine/Plafond.cs(42,9): error CS0103: The name 'x' does not exist in the current context
+buildErrors:
+  pattern: '^(?<file>[^\s(]+\.cs)\(\d+,\d+\): error \w+: (?<message>.*)$'
+  # Les messages qui désignent un symbole absent : le seul échec de compilation légitime en TDD.
+  # Tout le reste — syntaxe, types, conversions — est un échec à rejeter.
+  missingSymbol:
+    - "does not exist in the current context"
+    - "does not contain a definition for"
+    - "could not be found"
+    - "no suitable method found"
+    - "is inaccessible due to its protection level"
+
+# Canaris : des tests dont la bonne réponse est connue d'avance. `/stack doctor` les écrit dans une
+# copie isolée du projet, lance la commande ci-dessus, et vérifie que l'échec obtenu porte le
+# classement attendu. `{marque}` est remplacée par un identifiant unique.
+canaries:
+  - kind: passed
+    file: tests/Dosage.Tests/Canari{marque}Tests.cs
+    content: |
+      using Xunit;
+      namespace Dosage.Tests;
+      public class Canari{marque}Tests
+      {
+          [Fact] public void Canari{marque}() => Assert.Equal(1, 1);
+      }
+  - kind: assertion
+    file: tests/Dosage.Tests/Canari{marque}Tests.cs
+    content: |
+      using Xunit;
+      namespace Dosage.Tests;
+      public class Canari{marque}Tests
+      {
+          [Fact] public void Canari{marque}() => Assert.Equal(1, 2);
+      }
+  - kind: missing_symbol
+    file: tests/Dosage.Tests/Canari{marque}Tests.cs
+    content: |
+      using Xunit;
+      namespace Dosage.Tests;
+      public class Canari{marque}Tests
+      {
+          [Fact] public void Canari{marque}() => MethodeAbsente{marque}();
+      }
+  - kind: syntax
+    file: tests/Dosage.Tests/Canari{marque}Tests.cs
+    content: |
+      using Xunit;
+      namespace Dosage.Tests;
+      public class Canari{marque}Tests
+      {
+          [Fact] public void Canari{marque}() => :::
