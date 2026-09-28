@@ -1,0 +1,26 @@
+{
+  "_pourquoi": "Barre de qualité du projet (SPEC-skraft §7.4). Les seuils vivent ici, pas dans le profil de stack : le profil dit COMMENT lancer, la barre dit CE QUI est exigé. Deux endroits qui décideraient la politique finiraient par se contredire.",
+  "coverage": {
+    "core": 90,
+    "edge": 70
+  },
+  "dependencyRules": [
+    {
+      "module": "Tarification.Domaine",
+      "forbidden": [
+        "Tarification.Application",
+        "Microsoft.EntityFrameworkCore",
+        "System.Data",
+        "System.Net.Http"
+      ]
+    },
+    {
+      "module": "Tarification.Application",
+      "forbidden": [
+        "Microsoft.EntityFrameworkCore",
+        "System.Data",
+        "System.Net.Http"
+      ]
+    }
+  ]
+}

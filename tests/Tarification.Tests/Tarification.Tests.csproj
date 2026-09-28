@@ -9,6 +9,13 @@
     <!-- agent-studio ne sait lire que le JUnit XML : sans cet enregistreur, aucune porte
          ne peut mesurer quoi que ce soit. Voir docs/adr/adr-002-*. -->
     <PackageReference Include="JunitXml.TestLogger" Version="4.1.0" />
+    <!-- Fournit le datacollector « XPlat Code Coverage ». Sans lui, la collecte échoue avec
+         « datacollector introuvable » et aucune couverture n'est produite, alors que les tests
+         passent : rien ne signale la mesure manquante côté suite. -->
+    <PackageReference Include="coverlet.collector" Version="6.0.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="../../src/Tarification.Domaine/Tarification.Domaine.csproj" />

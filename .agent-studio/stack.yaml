@@ -8,9 +8,22 @@ detect: [Tarification.sln]
 
 # `dotnet test` ne produit pas de JUnit XML nativement : c'est le paquet JunitXml.TestLogger,
 # référencé par tests/Tarification.Tests, qui l'ajoute (voir docs/adr/adr-002-*).
+# La couverture sort de la MÊME exécution que les tests : `{couverture}` dit à l'outil où l'écrire.
+# Elle n'est pas redondante avec la mutation — elle en est le plancher, et ce projet n'a pas d'outil
+# de mutation. Sans elle, il n'aurait aucune mesure du tout.
 tests:
-  command: [dotnet, test, --nologo, --logger, "junit;LogFilePath={rapport}"]
+  command:
+    - dotnet
+    - test
+    - --nologo
+    - --logger
+    - "junit;LogFilePath={rapport}"
+    - --collect
+    - "XPlat Code Coverage;Format=cobertura"
+    - --results-directory
+    - "{couverture}"
   report: junit-xml
+  coverage: cobertura-xml
 
 layout:
   acceptanceTests: ["tests/**/*AcceptanceTests.cs"]

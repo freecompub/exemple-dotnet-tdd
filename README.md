@@ -21,7 +21,8 @@ agents plusieurs fois sur du terrain neuf.
 | `stories/US-6.md` | Refus si stock insuffisant. Introduit un catalogue, donc une dépendance extérieure. |
 | `docs/adr/adr-001-*.md` | Découpage domaine / application. La lentille d'architecture s'y réfère. |
 | `docs/adr/adr-002-*.md` | Pourquoi les tests produisent du JUnit XML. |
-| `.agent-studio/stack.yaml` | Profil de stack : commande de test, emplacements, erreurs de compilation, canaris. |
+| `.agent-studio/stack.yaml` | Profil de stack : commande de test, couverture, emplacements, erreurs de compilation, canaris. |
+| `.skraft/quality.json` | Barre de qualité : seuils de couverture et règles de dépendance. Le profil dit **comment lancer**, la barre dit **ce qui est exigé**. |
 | `src/Tarification.Domaine` | Règles métier. Ne dépend de **rien**. |
 | `src/Tarification.Application` | Cas d'usage. Dépend du domaine, et de lui seul. |
 | `tests/Tarification.Tests` | Tests unitaires et d'acceptance. |
