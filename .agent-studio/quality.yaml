@@ -1,0 +1,28 @@
+# Barre de qualité du projet (ADR 0049) : CE QUI est exigé.
+# COMMENT lancer les outils (tests, mutation) est dans stack.yaml.
+
+# Ce qu'est le cœur du code : domaine et application, par chemins.
+coeur:
+  domaine: ["src/Tarification.Domaine/**"]
+  application: ["src/Tarification.Application/**"]
+
+# Couverture de lignes minimale, en %, par couche. Une couche sans seuil n'est pas exigée.
+couverture:
+  domaine: 90
+  application: 90
+  reste: 70
+
+# Mutation : un mutant qui survit est un comportement qu'aucun test ne vérifie.
+mutation:
+  active: true
+  domaine: 100
+  application: 90
+  reste: 80
+  moment: fin-de-phase   # une seule exécution en fin de DELIVER ; « scenario » pour chaque scénario
+
+# Ce que chaque couche n'a pas le droit d'importer.
+dependances:
+  - module: Tarification.Domaine
+    interdits: [Tarification.Application, Microsoft.EntityFrameworkCore, System.Data, System.Net.Http]
+  - module: Tarification.Application
+    interdits: [Microsoft.EntityFrameworkCore, System.Data, System.Net.Http]
