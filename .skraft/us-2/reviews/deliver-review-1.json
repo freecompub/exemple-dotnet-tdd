@@ -1,0 +1,48 @@
+[
+  {
+    "lens": "cold-reader",
+    "verdict": "APPROVED",
+    "defects": [
+      {
+        "severity": "minor",
+        "target": "code",
+        "file": "src/Tarification.Domaine/GrilleDePaliers.cs",
+        "line": 18,
+        "description": "PalierApplicable trie par Taux.Valeur décroissant pour trouver le palier \"le plus avantageux\", ce qui suppose implicitement que taux plus élevé = plus avantageux parmi les seuils atteints. C'est vrai pour une remise, mais rien dans le nom de la méthode ni un commentaire n'explicite cette hypothèse de tri — un lecteur découvrant ce fichier seul doit déduire la logique en lisant le LINQ plutôt que de la voir nommée (ex. un helper ou un commentaire court sur le critère de comparaison).",
+        "id": "cold-reader#1.1"
+      }
+    ]
+  },
+  {
+    "lens": "test-integrity",
+    "verdict": "APPROVED",
+    "defects": []
+  },
+  {
+    "lens": "architecture",
+    "verdict": "APPROVED",
+    "defects": []
+  },
+  {
+    "lens": "quality-gates",
+    "verdict": "CHANGES_REQUESTED",
+    "defects": [
+      {
+        "severity": "major",
+        "target": "test",
+        "file": "src/Tarification.Domaine/Montant.cs",
+        "line": 17,
+        "description": "L'opérateur `+` (ligne 17) et `Soustrait` (ligne 25) ne sont exercés par aucun test — ils ne servent qu'à `Facture.ATPayer` (Tarification.Application/CalculDuPanier.cs), dont l'impl-plan DISTILL reconnaît explicitement qu'« aucun AC ne porte de valeur explicite sur ATPayer » et que la correction « n'est exercée par aucun test d'acceptance gelé ». Ce n'est pas un cas de l'ADR 0045 (pas de duplication d'un test d'acceptance existant) : c'est un comportement livré sans aucune preuve rouge→vert, ce qui explique une partie du déficit de couverture mesuré sur Montant.cs (70 %, 7/10 lignes).",
+        "id": "quality-gates#1.1"
+      },
+      {
+        "severity": "minor",
+        "target": "code",
+        "file": "src/Tarification.Domaine/Montant.cs",
+        "line": 27,
+        "description": "`CompareTo` (ligne 27) et `ToString` (ligne 29) ne sont appelés par aucun test (ni acceptance ni unitaire), contribuant aussi aux lignes non couvertes signalées sur Montant.cs. À surveiller si ces membres prennent une rôle métier plus tard.",
+        "id": "quality-gates#1.2"
+      }
+    ]
+  }
+]
