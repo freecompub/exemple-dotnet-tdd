@@ -1,16 +1,26 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
 namespace Tarification.Domaine;
 
 /// <summary>
-/// La grille des paliers de remise par quantité, globale pour toutes les références. Bouchon
-/// DISTILL : <see cref="PalierApplicable"/> ne retient volontairement jamais de palier — la règle
-/// de sélection (le taux le plus avantageux parmi les seuils atteints) revient à la boucle interne
-/// (voir .skraft/us-2/distill/impl-plan.md).
+/// La grille des paliers de remise par quantité, globale pour toutes les références.
 /// </summary>
 public sealed class GrilleDePaliers
 {
-    public static GrilleDePaliers Vide { get; } = new();
+    private readonly IReadOnlyCollection<Palier> _paliers;
 
-    public static GrilleDePaliers De(IEnumerable<Palier> paliers) => new();
+    private GrilleDePaliers(IReadOnlyCollection<Palier> paliers) => _paliers = paliers;
 
-    public Palier? PalierApplicable(Quantite quantite) => null;
+    public static GrilleDePaliers Vide { get; } = new(Array.Empty<Palier>());
+
+    public static GrilleDePaliers De(IEnumerable<Palier> paliers) => new(paliers.ToArray());
+
+    public Palier? PalierApplicable(Quantite quantite) =>
+        _paliers
+            .Where(palier => quantite.Valeur >= palier.Seuil.Valeur)
+            .OrderByDescending(palier => palier.Taux.Valeur)
+            .Select(palier => (Palier?)palier)
+            .FirstOrDefault();
 }
