@@ -28,6 +28,8 @@ tests:
 # Mutation : Stryker.NET, outil local du dépôt (dotnet-tools.json ; `dotnet tool restore`).
 # Il range son rapport dans un dossier de sortie : `{dossier}`, hors du projet, que l'application lit.
 # SI on mute, et à quels seuils, se décide dans .agent-studio/quality.yaml (ADR 0049), pas ici.
+# stryker-config.json écarte les mutations de chaînes : muter le texte d'un message d'erreur ne
+# révèle aucun trou de test utile (sur US-2, 4 survivants sur 7 n'étaient que cela).
 mutation:
   command:
     - dotnet
