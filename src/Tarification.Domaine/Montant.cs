@@ -20,7 +20,7 @@ public readonly record struct Montant : IComparable<Montant>
     public Montant Multiplie(int facteur) =>
         facteur < 0 ? throw new ArgumentOutOfRangeException(nameof(facteur), facteur, "Un facteur négatif n'a pas de sens ici.") : new Montant(Euros * facteur);
 
-    public Montant Multiplie(Taux taux) => new(Euros * taux.Valeur);
+    public Montant Multiplie(Taux taux) => De(Euros * taux.Valeur);
 
     public Montant Soustrait(Montant autre) => De(Euros - autre.Euros);
 
