@@ -3,13 +3,14 @@ using Tarification.Domaine;
 namespace Tarification.Application;
 
 /// <summary>
-/// Ce qu'un client doit payer, et le détail qui l'explique. Les remises et les frais de port
-/// restent à zéro tant que les stories correspondantes ne sont pas livrées : mieux vaut un champ
-/// visiblement vide qu'un champ absent qu'on oublierait de remplir.
+/// Ce qu'un client doit payer, et le détail qui l'explique. Les frais de port restent à zéro tant
+/// que la story correspondante n'est pas livrée : mieux vaut un champ visiblement vide qu'un champ
+/// absent qu'on oublierait de remplir. La remise, elle, est calculée par palier de quantité
+/// (US-2) et vient en déduction de la somme des articles.
 /// </summary>
 public sealed record Facture(Montant SommeDesArticles, Montant Remise, Montant FraisDePort)
 {
-    public Montant ATPayer => SommeDesArticles + FraisDePort;
+    public Montant ATPayer => SommeDesArticles.Soustrait(Remise) + FraisDePort;
 }
 
 /// <summary>
@@ -18,5 +19,10 @@ public sealed record Facture(Montant SommeDesArticles, Montant Remise, Montant F
 /// </summary>
 public sealed class CalculDuPanier
 {
-    public Facture Chiffrer(Panier panier) => new(panier.SommeDesLignes(), Montant.Zero, Montant.Zero);
+    // Surcharge conservée telle quelle pour ne pas casser tests/Tarification.Tests/CalculDuPanierTests.cs
+    // (US-1, hors périmètre d'écriture de cette phase) — voir .skraft/us-2/distill/impl-plan.md.
+    public Facture Chiffrer(Panier panier) => Chiffrer(panier, GrilleDePaliers.Vide);
+
+    public Facture Chiffrer(Panier panier, GrilleDePaliers grille) =>
+        new(panier.SommeDesLignes(), panier.SommeDesRemises(grille), Montant.Zero);
 }

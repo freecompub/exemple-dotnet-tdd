@@ -1,0 +1,40 @@
+[
+  {
+    "lens": "cold-reader",
+    "verdict": "APPROVED",
+    "defects": [
+      {
+        "severity": "minor",
+        "file": "src/Tarification.Domaine/GrilleDePaliers.cs",
+        "line": 13,
+        "description": "`GrilleDePaliers.De(IEnumerable<Palier> paliers)` ignore toujours complètement son paramètre (`new()` sans jamais lire `paliers`). Le commentaire XML du fichier l'explique comme bouchon volontaire, mais un lecteur qui ouvre seulement la signature publique (ex. en IntelliSense ou dans un diff partiel) peut raisonnablement croire à un bug plutôt qu'à un stub assumé — défaut non corrigé depuis la revue précédente."
+      },
+      {
+        "severity": "minor",
+        "file": "src/Tarification.Domaine/Taux.cs",
+        "line": 13,
+        "description": "`Taux.De(decimal valeur)` n'applique toujours aucune validation de borne, contrairement à `Montant.De` qui établit la convention « constructeur privé + fabrique validante » dans le même domaine. Le nom `De` laisse attendre une garde qui n'existe pas ici — incohérence de vocabulaire non corrigée depuis la revue précédente, documentée comme bouchon mais toujours susceptible de tromper un lecteur pressé."
+      },
+      {
+        "severity": "minor",
+        "file": "tests/Tarification.Tests/RemiseParPalierAcceptanceTests.cs",
+        "description": "Les noms de méthodes de test restent très longs et mélangent chiffres/pourcentages/mots-clés du scénario (ex. `Ac3_Un_seul_palier_le_plus_avantageux_s_applique_parmi_10_5_pct_et_50_12_pct`), rendant le scan rapide d'un rapport de tests ou d'une liste d'échecs plus coûteux — non corrigé depuis la revue précédente."
+      }
+    ]
+  },
+  {
+    "lens": "test-integrity",
+    "verdict": "APPROVED",
+    "defects": []
+  },
+  {
+    "lens": "architecture-compliance-lens",
+    "verdict": "APPROVED",
+    "defects": []
+  },
+  {
+    "lens": "quality-gates",
+    "verdict": "APPROVED",
+    "defects": []
+  }
+]
