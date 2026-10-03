@@ -20,9 +20,7 @@ public readonly record struct Montant : IComparable<Montant>
     public Montant Multiplie(int facteur) =>
         facteur < 0 ? throw new ArgumentOutOfRangeException(nameof(facteur), facteur, "Un facteur négatif n'a pas de sens ici.") : new Montant(Euros * facteur);
 
-    // Bouchon DISTILL : jamais exercé tant que GrilleDePaliers.PalierApplicable ne retient aucun
-    // palier (voir .skraft/us-2/distill/impl-plan.md). Posé pour que LigneDePanier.Remise compile.
-    public Montant Multiplie(Taux taux) => Zero;
+    public Montant Multiplie(Taux taux) => De(Euros * taux.Valeur);
 
     public Montant Soustrait(Montant autre) => De(Euros - autre.Euros);
 
