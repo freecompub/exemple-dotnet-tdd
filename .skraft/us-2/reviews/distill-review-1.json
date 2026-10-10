@@ -1,0 +1,31 @@
+[
+  {
+    "lens": "cold-reader",
+    "verdict": "APPROVED",
+    "defects": []
+  },
+  {
+    "lens": "test-integrity",
+    "verdict": "CHANGES_REQUESTED",
+    "defects": [
+      {
+        "severity": "major",
+        "target": "test",
+        "file": "tests/Tarification.Tests/RemiseParQuantiteAcceptanceTests.cs",
+        "line": 69,
+        "description": "Le seul scénario multi-ligne attend zéro pour deux lignes inéligibles. Tous les cas de remise positive portent sur une seule ligne : un mutant qui évalue uniquement la première ligne et ignore les suivantes satisfait donc les sept tests. La séparation des quantités est vérifiée, mais pas le calcul et l'addition des remises de chaque ligne, pourtant prévus dans consistency-matrix.md. Ajouter un test d'acceptance passant par Chiffrer avec deux références différentes de 10 articles à 2,00 € et le palier 10 / 5 %, puis assertant Facture.Remise = 2,00 €. Ce test distingue une véritable évaluation par ligne d'une implémentation limitée à la première ligne, sans dupliquer une couverture existante.",
+        "id": "test-integrity#1.1"
+      }
+    ]
+  },
+  {
+    "lens": "architecture",
+    "verdict": "APPROVED",
+    "defects": []
+  },
+  {
+    "lens": "quality-gates",
+    "verdict": "APPROVED",
+    "defects": []
+  }
+]

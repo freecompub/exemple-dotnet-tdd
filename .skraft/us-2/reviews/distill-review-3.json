@@ -1,0 +1,29 @@
+[
+  {
+    "lens": "cold-reader",
+    "verdict": "APPROVED",
+    "defects": []
+  },
+  {
+    "lens": "test-integrity",
+    "verdict": "APPROVED",
+    "defects": [],
+    "rulings": [
+      {
+        "defect": "test-integrity#1.1",
+        "decision": "accepted",
+        "reason": "Correction constatée : le nouveau test d'acceptance chiffre deux références distinctes de 10 articles à 2,00 € avec le palier 10 / 5 % et exige Facture.Remise = 2,00 €. Une implémentation limitée à la première ligne rendrait 1,00 € et échouerait. Le scénario et les plans sont alignés ; les tests gelés restent inchangés."
+      }
+    ]
+  },
+  {
+    "lens": "architecture",
+    "verdict": "APPROVED",
+    "defects": []
+  },
+  {
+    "lens": "quality-gates",
+    "verdict": "APPROVED",
+    "defects": []
+  }
+]
