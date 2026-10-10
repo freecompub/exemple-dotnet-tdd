@@ -1,0 +1,26 @@
+[
+  {
+    "defects": [
+      {
+        "description": "Le modèle laisse volontairement sans règle de validation les taux et les seuils, mais ne borne pas non plus les valeurs que le contrat considère valides. Un taux négatif peut produire une « remise » négative et un taux supérieur à 100 % une remise dépassant le sous-total ; un seuil nul rendrait le palier applicable à toute ligne. Le choix de ne pas inventer de règle est explicite, mais l'hypothèse attendue sur les données fournies reste à clarifier ou à reporter comme décision de périmètre.",
+        "file": ".skraft/us-2/design/domain-model.md",
+        "line": 28,
+        "severity": "minor",
+        "target": "deliverable",
+        "id": "cold-reader#1.1"
+      }
+    ],
+    "lens": "cold-reader",
+    "verdict": "APPROVED"
+  },
+  {
+    "defects": [],
+    "lens": "test-integrity",
+    "verdict": "APPROVED"
+  },
+  {
+    "defects": [],
+    "lens": "architecture",
+    "verdict": "APPROVED"
+  }
+]
