@@ -1,4 +1,13 @@
 namespace Tarification.Domaine;
 
-// Signature provisoire pour compiler l'acceptance ; invariants à réaliser dans la boucle interne.
-public sealed record PalierDeQuantite(Quantite Seuil, TauxDeRemise Taux);
+public sealed record PalierDeQuantite
+{
+    public Quantite Seuil { get; }
+    public TauxDeRemise Taux { get; }
+
+    public PalierDeQuantite(Quantite seuil, TauxDeRemise taux)
+    {
+        Seuil = Quantite.De(seuil.Valeur);
+        Taux = new TauxDeRemise(taux.Valeur);
+    }
+}
