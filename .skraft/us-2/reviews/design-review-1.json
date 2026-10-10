@@ -1,0 +1,46 @@
+[
+  {
+    "lens": "cold-reader",
+    "verdict": "CHANGES_REQUESTED",
+    "defects": [
+      {
+        "severity": "major",
+        "target": "deliverable",
+        "file": ".skraft/us-2/design/domain-model.md",
+        "description": "Le modele dit que l'emplacement de la regle de remise n'est pas decide (Panier, LigneDePanier ou politique separee), alors que contracts.md attribue l'evaluation des lignes a ConfigurationDePaliers et diagrams.md represente explicitement ce flux. Le lecteur ne peut pas savoir si cette responsabilite est une decision de conception ou reste ouverte.",
+        "id": "cold-reader#1.1"
+      },
+      {
+        "severity": "major",
+        "target": "deliverable",
+        "file": ".skraft/us-2/design/domain-model.md",
+        "description": "La transmission de ConfigurationDePaliers au calcul est presentee comme une decision future, alors que contracts.md retient deja une configuration explicite pour ChiffrerPanier et conserve l'appel historique avec configuration vide. Aligner le modele de domaine sur ce contrat, ou marquer le contrat comme proposition non tranchee.",
+        "id": "cold-reader#1.2"
+      },
+      {
+        "severity": "major",
+        "target": "deliverable",
+        "file": ".skraft/us-2/design/event-model.md",
+        "description": "Le modele evenementiel indique que le point d'invocation et la forme du rejet ne sont pas fixes, mais contracts.md tranche la validation a la construction et precise les exceptions de rejet. Cette divergence laisse le cycle de validation ambigu pour le lecteur.",
+        "id": "cold-reader#1.3"
+      },
+      {
+        "severity": "minor",
+        "target": "deliverable",
+        "file": ".skraft/us-2/design/event-model.md",
+        "description": "L'exposition publique de RemiseDeLigne est dite « a decider », tandis que contracts.md et consistency-matrix.md la fixent comme interne et excluent ce detail de Facture. Indiquer dans ce modele que la decision est prise.",
+        "id": "cold-reader#1.4"
+      }
+    ]
+  },
+  {
+    "lens": "test-integrity",
+    "verdict": "APPROVED",
+    "defects": []
+  },
+  {
+    "lens": "architecture",
+    "verdict": "APPROVED",
+    "defects": []
+  }
+]
