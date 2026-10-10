@@ -1,0 +1,17 @@
+[
+  {
+    "defects": [],
+    "lens": "cold-reader",
+    "verdict": "APPROVED"
+  },
+  {
+    "defects": [],
+    "lens": "test-integrity",
+    "verdict": "APPROVED"
+  },
+  {
+    "defects": [],
+    "lens": "architecture",
+    "verdict": "APPROVED"
+  }
+]
