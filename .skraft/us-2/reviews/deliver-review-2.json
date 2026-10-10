@@ -1,0 +1,63 @@
+[
+  {
+    "lens": "cold-reader",
+    "verdict": "APPROVED",
+    "defects": [],
+    "rulings": [
+      {
+        "defect": "cold-reader#1.1",
+        "decision": "accepted",
+        "reason": "Correction constatée : GrilleDePaliers copie la collection et expose une vue non modifiable, rejette les seuils dupliqués et les éléments nuls. Les seuils et taux sont validés par PalierDeQuantite, dont les propriétés sont en lecture seule ; la grille n’a donc pas besoin de répéter ces validations."
+      },
+      {
+        "defect": "cold-reader#1.2",
+        "decision": "accepted",
+        "reason": "Correction constatée : TauxDeRemise rejette les valeurs hors ]0, 100] à la construction. Montant.Multiplie revalide également la valeur reçue, ce qui couvre le taux nul créé par défaut pour ce record struct. Le calcul ne peut plus accepter un taux invalide."
+      }
+    ]
+  },
+  {
+    "lens": "test-integrity",
+    "verdict": "APPROVED",
+    "defects": [],
+    "rulings": [
+      {
+        "defect": "test-integrity#1.1",
+        "decision": "accepted",
+        "reason": "Corrigé : ConfigurationDePaliersTests vérifie les taux -1, 0 et 101 rejetés, 100 accepté, les valeurs par défaut de Quantite et TauxDeRemise rejetées par PalierDeQuantite, et les seuils dupliqués rejetés par GrilleDePaliers. Les seuils nuls et négatifs sont déjà couverts par les tests existants de Quantite. Les assertions portent sur les vrais constructeurs, désormais validants."
+      },
+      {
+        "defect": "test-integrity#1.2",
+        "decision": "accepted",
+        "reason": "Corrigé : le test chiffre une remise initiale de 1,00 €, remplace le palier dans la collection source par un taux de 12 %, puis exige une facture inchangée. Il détecterait la conservation directe de la collection. GrilleDePaliers réalise une copie et l'expose via Array.AsReadOnly."
+      },
+      {
+        "defect": "test-integrity#1.3",
+        "decision": "accepted",
+        "reason": "Corrigé : la théorie utilise 10 : 12 % et 50 : 5 % dans les deux ordres et exige une remise de 12,00 € ainsi qu'un montant à payer de 88,00 €. Elle distingue le maximum des sélections par plus grand seuil, premier ou dernier palier atteint, sans modifier les acceptances gelées."
+      }
+    ]
+  },
+  {
+    "lens": "architecture",
+    "verdict": "APPROVED",
+    "defects": [],
+    "rulings": [
+      {
+        "defect": "architecture#1.1",
+        "decision": "accepted",
+        "reason": "Correction constatée : TauxDeRemise rejette les valeurs hors ]0,100], PalierDeQuantite revalide le seuil et le taux, y compris leurs valeurs par défaut, et GrilleDePaliers rejette les seuils dupliqués avant de devenir utilisable. Les invariants sont portés par le domaine."
+      },
+      {
+        "defect": "architecture#1.2",
+        "decision": "accepted",
+        "reason": "Correction constatée : GrilleDePaliers copie la collection reçue avec ToArray puis expose Array.AsReadOnly(copie). Les paliers ont des propriétés en lecture seule ; aucune mutation de la collection d'origine ne peut modifier la configuration construite."
+      }
+    ]
+  },
+  {
+    "lens": "quality-gates",
+    "verdict": "APPROVED",
+    "defects": []
+  }
+]

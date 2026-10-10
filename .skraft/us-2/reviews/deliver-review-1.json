@@ -1,0 +1,84 @@
+[
+  {
+    "lens": "cold-reader",
+    "verdict": "CHANGES_REQUESTED",
+    "defects": [
+      {
+        "severity": "major",
+        "target": "code",
+        "file": "src/Tarification.Domaine/GrilleDePaliers.cs",
+        "line": 3,
+        "description": "La grille n’applique aucune validation ni copie défensive : le constructeur accepte une liste arbitraire, sans vérifier seuil >= 1, taux dans ]0 %, 100 %], ni unicité des seuils. Le design exige un objet valeur immuable, rejet explicite à la construction et collection non modifiable. Une mutation externe de la liste après construction continue d’affecter la grille, ce qui viole le contrat.",
+        "id": "cold-reader#1.1"
+      },
+      {
+        "severity": "major",
+        "target": "code",
+        "file": "src/Tarification.Domaine/Montant.cs",
+        "line": 18,
+        "description": "Le calcul de remise via `Multiplie(TauxDeRemise)` ne garantit pas le contrat métier du taux : le design impose un pourcentage strictement > 0 et <= 100, avec rejet explicite quand la configuration est invalide. Ici toute valeur de `TauxDeRemise` est acceptée sans validation, ce qui permet des remises arbitraires et casse le contrat d’intégrité de la grille.",
+        "id": "cold-reader#1.2"
+      }
+    ],
+    "rulings": []
+  },
+  {
+    "lens": "test-integrity",
+    "verdict": "CHANGES_REQUESTED",
+    "defects": [
+      {
+        "severity": "major",
+        "target": "test",
+        "file": "tests/Tarification.Tests/RemiseParQuantiteAcceptanceTests.cs",
+        "line": 93,
+        "description": "Aucun test ne vérifie les rejets de configuration pourtant clarifiés et prévus pour la boucle interne : seuil invalide, taux hors ]0,100], seuils dupliqués. Les acceptances ne construisent que des configurations valides ; la fabrique appelle même Quantite.De avant PalierDeQuantite, empêchant d'éprouver le seuil par défaut. Les types provisoires sans validation passent donc toute la suite. Ajouter des tests de construction avec assertions sur les exceptions attendues, incluant default(Quantite), et l'acceptation de 100 %. Ce comportement n'est couvert par aucune acceptance existante.",
+        "id": "test-integrity#1.1"
+      },
+      {
+        "severity": "major",
+        "target": "test",
+        "file": "tests/Tarification.Tests/RemiseParQuantiteAcceptanceTests.cs",
+        "line": 93,
+        "description": "L'immuabilité de la grille, obligation du DESIGN et du plan de réalisation, n'est éprouvée par aucun test. Chaque acceptance fournit un tableau qui n'est jamais modifié ensuite : conserver directement cette collection mutable, comme le fait actuellement GrilleDePaliers, reste indétectable. Ajouter un test qui construit la grille depuis une collection mutable, chiffre une ligne éligible, modifie la collection source puis exige le même résultat. Il ne duplique aucun comportement actuellement vérifié par acceptance.",
+        "id": "test-integrity#1.2"
+      },
+      {
+        "severity": "major",
+        "target": "test",
+        "file": "tests/Tarification.Tests/RemiseParQuantiteAcceptanceTests.cs",
+        "line": 38,
+        "description": "Le seul cas à plusieurs paliers place le taux maximal au dernier et au plus grand seuil. Il ne distingue pas le maximum promis d'une sélection du dernier palier atteint ou du plus grand seuil : ces remplacements laisseraient toutes les acceptances vertes. La matrice DESIGN exigeait précisément 10 : 12 % et 50 : 5 %, dans les deux ordres, pour une ligne de 50 × 2,00 € avec remise 12,00 €. Ajouter cette vérification complémentaire sans modifier les acceptances gelées ; aucune acceptance existante ne couvre cette distinction.",
+        "id": "test-integrity#1.3"
+      }
+    ],
+    "rulings": []
+  },
+  {
+    "lens": "architecture",
+    "verdict": "CHANGES_REQUESTED",
+    "defects": [
+      {
+        "severity": "major",
+        "target": "code",
+        "file": "src/Tarification.Domaine/TauxDeRemise.cs",
+        "line": 4,
+        "description": "Les invariants de configuration ratifiés ne sont pas appliqués dans le domaine : TauxDeRemise accepte tout decimal, PalierDeQuantite accepte un Quantite par défaut de valeur 0, et GrilleDePaliers accepte des seuils dupliqués. Ces signatures provisoires de DISTILL subsistent dans la livraison. Un taux nul devient silencieusement une remise nulle ; un taux supérieur à 100 peut produire une remise supérieure au sous-total, puis un rejet tardif lors du calcul de ATPayer. Appliquer le rejet explicite à la construction prévu par design/contracts.md:15-19 et research/clarification.md:15, avant qu'une configuration soit utilisable.",
+        "id": "architecture#1.1"
+      },
+      {
+        "severity": "major",
+        "target": "code",
+        "file": "src/Tarification.Domaine/GrilleDePaliers.cs",
+        "line": 3,
+        "description": "GrilleDePaliers conserve et expose directement la collection reçue. IReadOnlyList n'empêche pas la mutation de la List sous-jacente par l'appelant : modifier cette liste après construction change les remises calculées avec la même grille. Cela contredit l'objet-valeur composite immuable retenu en DESIGN et la copie non modifiable exigée par design/contracts.md:17. Prendre une copie défensive et ne pas exposer de collection modifiable afin que la configuration validée reste stable.",
+        "id": "architecture#1.2"
+      }
+    ],
+    "rulings": []
+  },
+  {
+    "lens": "quality-gates",
+    "verdict": "APPROVED",
+    "defects": []
+  }
+]
