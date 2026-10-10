@@ -1,0 +1,25 @@
+[
+  {
+    "lens": "cold-reader",
+    "verdict": "APPROVED",
+    "defects": [],
+    "rulings": []
+  },
+  {
+    "lens": "test-integrity",
+    "verdict": "APPROVED",
+    "defects": [],
+    "rulings": []
+  },
+  {
+    "lens": "architecture",
+    "verdict": "APPROVED",
+    "defects": [],
+    "rulings": []
+  },
+  {
+    "lens": "quality-gates",
+    "verdict": "APPROVED",
+    "defects": []
+  }
+]
