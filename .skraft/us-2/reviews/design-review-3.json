@@ -1,0 +1,31 @@
+[
+  {
+    "lens": "cold-reader",
+    "verdict": "APPROVED",
+    "defects": [],
+    "rulings": [
+      {
+        "defect": "cold-reader#1.1",
+        "decision": "accepted",
+        "reason": "Le document a été clarifié : GrilleDePaliers est désormais explicitement un objet-valeur composite immuable, sans racine d’agrégat ni identité. Les invariants et les responsabilités sont décrits sans ambiguïté."
+      },
+      {
+        "defect": "cold-reader#1.2",
+        "decision": "accepted",
+        "reason": "Le modèle a fermé les décisions de conception dans le document lui-même : transmission de la grille, calcul de ATPayer, évolution de Montant, représentation du taux et placement des tests sont maintenant explicitement tranchés, ce qui clôt le design."
+      }
+    ]
+  },
+  {
+    "lens": "test-integrity",
+    "verdict": "APPROVED",
+    "defects": [],
+    "rulings": []
+  },
+  {
+    "lens": "architecture",
+    "verdict": "APPROVED",
+    "defects": [],
+    "rulings": []
+  }
+]

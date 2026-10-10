@@ -1,0 +1,35 @@
+[
+  {
+    "lens": "cold-reader",
+    "verdict": "CHANGES_REQUESTED",
+    "defects": [
+      {
+        "severity": "major",
+        "target": "deliverable",
+        "file": ".skraft/us-2/design/domain-model.md",
+        "line": 34,
+        "description": "Le modèle de domaine présente GrilleDePaliers comme racine d’agrégat, puis comme objet-valeur composite, et dit explicitement que son rôle reste à confirmer. Cette ambiguïté laisse les invariants, la responsabilité de calcul et les frontières de couche non stabilisées, donc le design n’est pas assez défini pour être validé.",
+        "id": "cold-reader#1.1"
+      },
+      {
+        "severity": "major",
+        "target": "deliverable",
+        "file": ".skraft/us-2/design/domain-model.md",
+        "line": 75,
+        "description": "Le document transmet explicitement cinq décisions de conception à l’étape suivante (transmission de la grille, raccord ATPayer, opérations monétaires, représentation du taux, emplacement des tests). En phase DESIGN, cela signifie que le contrat métier et l’architecture ne sont pas clos ; le livrable reste incomplet et nécessite un cadrage avant validation.",
+        "id": "cold-reader#1.2"
+      }
+    ],
+    "rulings": []
+  },
+  {
+    "lens": "test-integrity",
+    "verdict": "APPROVED",
+    "defects": []
+  },
+  {
+    "lens": "architecture",
+    "verdict": "APPROVED",
+    "defects": []
+  }
+]
