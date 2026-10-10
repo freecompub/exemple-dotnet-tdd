@@ -17,6 +17,8 @@ public readonly record struct Montant : IComparable<Montant>
 
     public static Montant operator +(Montant a, Montant b) => new(a.Euros + b.Euros);
 
+    public static Montant operator -(Montant a, Montant b) => De(a.Euros - b.Euros);
+
     public Montant Multiplie(int facteur) =>
         facteur < 0 ? throw new ArgumentOutOfRangeException(nameof(facteur), facteur, "Un facteur négatif n'a pas de sens ici.") : new Montant(Euros * facteur);
 

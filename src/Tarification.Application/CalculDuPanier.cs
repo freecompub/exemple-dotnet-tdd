@@ -3,13 +3,11 @@ using Tarification.Domaine;
 namespace Tarification.Application;
 
 /// <summary>
-/// Ce qu'un client doit payer, et le détail qui l'explique. Les remises et les frais de port
-/// restent à zéro tant que les stories correspondantes ne sont pas livrées : mieux vaut un champ
-/// visiblement vide qu'un champ absent qu'on oublierait de remplir.
+/// Ce qu'un client doit payer, et le détail qui l'explique.
 /// </summary>
 public sealed record Facture(Montant SommeDesArticles, Montant Remise, Montant FraisDePort)
 {
-    public Montant ATPayer => SommeDesArticles + FraisDePort;
+    public Montant ATPayer => SommeDesArticles - Remise + FraisDePort;
 }
 
 /// <summary>
@@ -20,6 +18,6 @@ public sealed class CalculDuPanier
 {
     public Facture Chiffrer(Panier panier) => new(panier.SommeDesLignes(), Montant.Zero, Montant.Zero);
 
-    // Bouchon DISTILL : conserve le calcul existant jusqu'a la boucle d'implementation.
-    public Facture Chiffrer(Panier panier, PaliersDeQuantite paliers) => Chiffrer(panier);
+    public Facture Chiffrer(Panier panier, PaliersDeQuantite paliers) =>
+        new(panier.SommeDesLignes(), panier.SommeDesRemises(paliers), Montant.Zero);
 }
