@@ -19,4 +19,7 @@ public sealed record Facture(Montant SommeDesArticles, Montant Remise, Montant F
 public sealed class CalculDuPanier
 {
     public Facture Chiffrer(Panier panier) => new(panier.SommeDesLignes(), Montant.Zero, Montant.Zero);
+
+    // Bouchon de DISTILL : conserve le calcul actuel pour obtenir un rouge métier.
+    public Facture Chiffrer(Panier panier, BaremeDeRemise bareme) => Chiffrer(panier);
 }
