@@ -19,4 +19,7 @@ public sealed record Facture(Montant SommeDesArticles, Montant Remise, Montant F
 public sealed class CalculDuPanier
 {
     public Facture Chiffrer(Panier panier) => new(panier.SommeDesLignes(), Montant.Zero, Montant.Zero);
+
+    // Bouchon DISTILL : conserve le calcul existant jusqu'a la boucle d'implementation.
+    public Facture Chiffrer(Panier panier, PaliersDeQuantite paliers) => Chiffrer(panier);
 }

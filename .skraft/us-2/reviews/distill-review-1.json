@@ -1,0 +1,47 @@
+[
+  {
+    "defects": [
+      {
+        "description": "Le scénario AC-3 ne distingue pas la règle formulée comme « remise la plus avantageuse » du choix du palier au seuil le plus élevé : avec des taux croissants (5 % au seuil 10, 12 % au seuil 50), ces deux stratégies donnent toutes deux 12,00 €. Or le modèle de domaine et le plan d’implémentation précisent que les taux ne sont pas supposés croissants et que la remise maximale doit être retenue. Ajoutez une acceptation discriminante avec un taux plus élevé sur un seuil inférieur, afin que l’intention métier soit vérifiable sans déduire qu’un seuil supérieur est toujours préférable.",
+        "file": ".skraft/us-2/distill/features/tarification-remise-quantite.feature",
+        "line": 14,
+        "severity": "major",
+        "target": "test",
+        "id": "cold-reader#1.1"
+      },
+      {
+        "description": "La mention « M4 negative — saturated by AC » et la valeur « A » dans la colonne Walking Skeleton ne sont pas définies dans le livrable. Un lecteur découvrant le plan ne peut pas déterminer ce que ces étiquettes signifient ; les expliciter ou employer des libellés compréhensibles rendrait les décisions de test traçables sans contexte implicite.",
+        "file": ".skraft/us-2/distill/test-plan.md",
+        "severity": "minor",
+        "target": "deliverable",
+        "id": "cold-reader#1.2"
+      }
+    ],
+    "lens": "cold-reader",
+    "verdict": "CHANGES_REQUESTED"
+  },
+  {
+    "defects": [
+      {
+        "description": "Le test du « plus avantageux » utilise des seuils et taux croissants, avec le meilleur palier en dernière position. Toute la suite laisserait donc passer une sélection du plus grand seuil ou du dernier palier applicable, au lieu du montant maximal. Le DESIGN exige explicitement de vérifier un taux plus avantageux sur un seuil inférieur (consistency-matrix.md), mais cette vérification manque dans les acceptances ; la couverture annoncée comme saturée ne l'est pas sur cette règle. Ajouter une variante d'acceptance avec deux paliers atteints dont le seuil inférieur donne la meilleure remise, et vérifier l'indépendance du résultat à leur ordre. Il ne s'agit pas d'ajouter un test unitaire dupliquant une acceptance existante.",
+        "file": "tests/Tarification.Tests/RemiseParQuantiteAcceptanceTests.cs",
+        "line": 40,
+        "severity": "major",
+        "target": "test",
+        "id": "test-integrity#1.1"
+      }
+    ],
+    "lens": "test-integrity",
+    "verdict": "CHANGES_REQUESTED"
+  },
+  {
+    "defects": [],
+    "lens": "architecture",
+    "verdict": "APPROVED"
+  },
+  {
+    "defects": [],
+    "lens": "quality-gates",
+    "verdict": "APPROVED"
+  }
+]
