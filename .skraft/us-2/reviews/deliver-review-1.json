@@ -1,0 +1,49 @@
+[
+  {
+    "defects": [
+      {
+        "description": "Le calcul choisit le taux maximal mais le type ne borne ni ne valide `Pourcentage`. Or `Montant` interdit les valeurs négatives et `Facture.ATPayer` soustrait la remise du total : un taux négatif échoue lors de `Montant.De`, tandis qu'un taux supérieur à 100 % peut faire échouer le calcul du montant payable. La règle métier sur les taux admissibles n'est pas visible dans ces fichiers, ce qui laisse l'appelant face à une entrée apparemment permise mais à un échec tardif. Rendre l'invariant explicite et rejeter une configuration invalide à sa création, ou exprimer autrement la politique autorisée.",
+        "file": "src/Tarification.Domaine/PaliersDeQuantite.cs",
+        "line": 7,
+        "severity": "major",
+        "target": "code",
+        "id": "cold-reader#1.1"
+      }
+    ],
+    "lens": "cold-reader",
+    "verdict": "CHANGES_REQUESTED"
+  },
+  {
+    "defects": [
+      {
+        "description": "L'addition des remises de plusieurs lignes n'est discriminée par aucune acceptance du projet : tous les cas positifs ont une seule ligne, et le seul cas à deux lignes attend zéro. Dans Panier.SommeDesRemises, remplacer `total + paliers.RemisePour(ligne)` par `paliers.RemisePour(ligne)` laisserait donc toute la suite verte tout en ne conservant que la remise de la dernière ligne. La couverture de lignes à 100 % ne protège pas cette règle du DESIGN. Ajouter une acceptance à la frontière Chiffrer avec deux références bénéficiant chacune d'une remise positive différente, et affirmer leur somme dans Facture.Remise ainsi que le montant payable ; par exemple 10 × 2,00 € et 20 × 2,00 €, palier 10 / 5 %, remise totale 3,00 € et montant payable 57,00 €. Aucun test unitaire dupliqué n'est demandé.",
+        "file": "tests/Tarification.Tests/RemiseParQuantiteAcceptanceTests.cs",
+        "line": 67,
+        "severity": "major",
+        "target": "test",
+        "id": "test-integrity#1.1"
+      }
+    ],
+    "lens": "test-integrity",
+    "verdict": "CHANGES_REQUESTED"
+  },
+  {
+    "defects": [
+      {
+        "description": "La responsabilité du calcul de remise a été déplacée par rapport au DESIGN approuvé : contracts.md attribue explicitement le calcul indépendant à LigneDePanier et la somme à Panier. Ici, PaliersDeQuantite.RemisePour inspecte la quantité et le sous-total de la ligne et effectue tout le calcul ; LigneDePanier reste dépourvue de ce comportement et Panier appelle directement la collection de paliers. Les couches restent conformes à ADR-001, mais la répartition des responsabilités ne respecte pas le modèle retenu. Porter le calcul de remise sur LigneDePanier et faire sommer ces résultats par Panier ; PaliersDeQuantite peut conserver la sélection du palier applicable.",
+        "file": "src/Tarification.Domaine/PaliersDeQuantite.cs",
+        "line": 5,
+        "severity": "major",
+        "target": "code",
+        "id": "architecture#1.1"
+      }
+    ],
+    "lens": "architecture",
+    "verdict": "CHANGES_REQUESTED"
+  },
+  {
+    "defects": [],
+    "lens": "quality-gates",
+    "verdict": "APPROVED"
+  }
+]

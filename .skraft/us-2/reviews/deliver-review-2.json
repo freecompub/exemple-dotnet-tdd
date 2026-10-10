@@ -1,0 +1,45 @@
+[
+  {
+    "defects": [
+      {
+        "description": "Le nom `ATPayer` est opaque pour un nouveau lecteur : on ne sait pas s'il signifie « à payer » ou s'il abrège un terme métier (« AT » = toutes taxes ?). Tous les autres noms du dépôt sont en français complet (`SommeDesArticles`, `FraisDePort`). Un nom comme `MontantAPayer` ou `APayer` rendrait l'intention plus claire.",
+        "file": "src/Tarification.Application/CalculDuPanier.cs",
+        "line": 10,
+        "severity": "minor",
+        "target": "code",
+        "id": "cold-reader#2.1"
+      }
+    ],
+    "lens": "cold-reader",
+    "rulings": [
+      {
+        "decision": "accepted",
+        "defect": "cold-reader#1.1",
+        "reason": "Le contrat (contracts.md:64), le modèle (domain-model.md:28) et le plan (impl-plan.md:40) excluent explicitement toute borne sur les taux tant que le métier ne l'a pas décidée. Ajouter une validation inventerait une règle. La limite est documentée comme un choix de périmètre ; ce n'est pas un oubli du code."
+      }
+    ],
+    "verdict": "APPROVED"
+  },
+  {
+    "defects": [],
+    "lens": "test-integrity",
+    "rulings": [
+      {
+        "decision": "accepted",
+        "defect": "test-integrity#1.1",
+        "reason": "Corrigé. Les acceptances sont gelées, donc le test a été ajouté à la même frontière Chiffrer, dans CalculDuPanierRemisesTests.Les_remises_de_deux_references_s_additionnent_sur_la_facture. Le panier contient 10 × 2,00 € et 20 × 2,00 €, avec un palier 10 / 5 %. Le test affirme une remise de 3,00 € et un montant payable de 57,00 €. Le mutant qui remplace `total + ligne.Remise(paliers)` par `ligne.Remise(paliers)` donnerait 2,00 € : il est tué. Les deux lignes ont des remises différentes, ce qui tue aussi un mutant qui ne garderait que la première ligne. Aucune acceptance n'est dupliquée."
+      }
+    ],
+    "verdict": "APPROVED"
+  },
+  {
+    "defects": [],
+    "lens": "architecture",
+    "verdict": "APPROVED"
+  },
+  {
+    "defects": [],
+    "lens": "quality-gates",
+    "verdict": "APPROVED"
+  }
+]
