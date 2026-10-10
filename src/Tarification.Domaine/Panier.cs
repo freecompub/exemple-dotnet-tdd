@@ -14,4 +14,7 @@ public sealed class Panier
     }
 
     public Montant SommeDesLignes() => _lignes.Aggregate(Montant.Zero, (total, l) => total + l.SousTotal);
+
+    public Montant RemiseDe(GrilleDePaliers grille) =>
+        _lignes.Aggregate(Montant.Zero, (remise, ligne) => remise + grille.RemiseDe(ligne));
 }

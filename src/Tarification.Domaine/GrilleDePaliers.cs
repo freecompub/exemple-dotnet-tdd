@@ -1,4 +1,10 @@
 namespace Tarification.Domaine;
 
-// Signature provisoire ; ni validation, ni immutabilité, ni sélection de remise encore réalisées.
-public sealed record GrilleDePaliers(IReadOnlyList<PalierDeQuantite> Paliers);
+public sealed record GrilleDePaliers(IReadOnlyList<PalierDeQuantite> Paliers)
+{
+    public Montant RemiseDe(LigneDePanier ligne) => Paliers
+        .Where(palier => palier.Seuil.Valeur <= ligne.Quantite.Valeur)
+        .Select(palier => ligne.SousTotal.Multiplie(palier.Taux))
+        .Aggregate(Montant.Zero, (remise, remiseDuPalier) =>
+            remiseDuPalier.CompareTo(remise) > 0 ? remiseDuPalier : remise);
+}
