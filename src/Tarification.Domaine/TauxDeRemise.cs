@@ -2,6 +2,12 @@ namespace Tarification.Domaine;
 
 public readonly record struct TauxDeRemise
 {
-    // Signature provisoire DISTILL ; les règles seront introduites pendant DELIVER.
-    public static TauxDeRemise De(decimal pourcentage) => default;
+    public decimal Pourcentage { get; }
+
+    private TauxDeRemise(decimal pourcentage) => Pourcentage = pourcentage;
+
+    public static TauxDeRemise De(decimal pourcentage) =>
+        pourcentage < 0m || pourcentage > 100m
+            ? throw new ArgumentOutOfRangeException(nameof(pourcentage), pourcentage, "Un taux de remise est compris entre 0 et 100 %.")
+            : new TauxDeRemise(pourcentage);
 }
