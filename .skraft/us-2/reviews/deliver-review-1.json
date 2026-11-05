@@ -1,0 +1,30 @@
+[
+  {
+    "defects": [],
+    "lens": "cold-reader",
+    "verdict": "APPROVED"
+  },
+  {
+    "defects": [],
+    "lens": "test-integrity",
+    "verdict": "APPROVED"
+  },
+  {
+    "defects": [],
+    "lens": "architecture",
+    "verdict": "APPROVED"
+  },
+  {
+    "defects": [
+      {
+        "description": "La barre de qualité est encore lue depuis l'ancien emplacement .skraft/quality.json (fichier présent) au lieu de .agent-studio/quality.yaml exigé par l'ADR 0049. Aucun livrable de cette story n'effectue la migration ; tant qu'elle n'est pas faite, les futures portes de qualité restent basées sur un emplacement déprécié.",
+        "file": ".skraft/quality.json",
+        "severity": "minor",
+        "target": "deliverable",
+        "id": "quality-gates#1.1"
+      }
+    ],
+    "lens": "quality-gates",
+    "verdict": "APPROVED"
+  }
+]
