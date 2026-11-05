@@ -18,5 +18,11 @@ public sealed record Facture(Montant SommeDesArticles, Montant Remise, Montant F
 /// </summary>
 public sealed class CalculDuPanier
 {
-    public Facture Chiffrer(Panier panier) => new(panier.SommeDesLignes(), Montant.Zero, Montant.Zero);
+    // Surcharge conservée pour ne pas casser la compilation de
+    // tests/Tarification.Tests/CalculDuPanierTests.cs (hors périmètre d'écriture de DISTILL) ;
+    // sa suppression, prévue par .skraft/us-2/design/contracts.md, revient à la boucle interne.
+    public Facture Chiffrer(Panier panier) => Chiffrer(panier, GrilleDeRemise.Vide);
+
+    public Facture Chiffrer(Panier panier, GrilleDeRemise grille) =>
+        new(panier.SommeDesLignes(), panier.Lignes.Aggregate(Montant.Zero, (total, ligne) => total + ligne.Remise(grille)), Montant.Zero);
 }
