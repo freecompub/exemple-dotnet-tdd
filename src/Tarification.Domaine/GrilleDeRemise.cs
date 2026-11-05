@@ -14,8 +14,15 @@ public sealed class GrilleDeRemise
 
     public static GrilleDeRemise De(IEnumerable<PalierDeRemise> paliers) => new([.. paliers]);
 
-    // Stub de compilation (DISTILL) : la sélection du palier le plus avantageux (taux le plus
-    // élevé parmi les seuils atteints) est la logique métier à construire dans la boucle interne
-    // — voir .skraft/us-2/distill/impl-plan.md.
-    public PalierDeRemise? PalierLePlusAvantageux(Quantite quantite) => null;
+    public PalierDeRemise? PalierLePlusAvantageux(Quantite quantite)
+    {
+        PalierDeRemise? meilleur = null;
+        foreach (var palier in _paliers)
+        {
+            if (quantite.Valeur < palier.SeuilMinimal.Valeur) continue;
+            if (meilleur is null || palier.Taux > meilleur.Value.Taux) meilleur = palier;
+        }
+
+        return meilleur;
+    }
 }

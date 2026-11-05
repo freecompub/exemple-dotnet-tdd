@@ -5,8 +5,9 @@ public sealed record LigneDePanier(string Reference, Quantite Quantite, Montant 
 {
     public Montant SousTotal => PrixUnitaire.Multiplie(Quantite.Valeur);
 
-    // Stub de compilation (DISTILL) : le choix du palier le plus avantageux via
-    // GrilleDeRemise.PalierLePlusAvantageux reste à brancher dans la boucle interne — voir
-    // .skraft/us-2/distill/impl-plan.md.
-    public Montant Remise(GrilleDeRemise grille) => Montant.Zero;
+    public Montant Remise(GrilleDeRemise grille)
+    {
+        var palier = grille.PalierLePlusAvantageux(Quantite);
+        return palier is null ? Montant.Zero : SousTotal.Pourcentage(palier.Value.Taux);
+    }
 }
