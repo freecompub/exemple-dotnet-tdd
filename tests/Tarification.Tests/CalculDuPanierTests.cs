@@ -45,9 +45,9 @@ public class CalculDuPanierTests
     [Fact]
     public void Un_montant_multiplie_par_zero_vaut_zero()
     {
-        var resultat = Montant.De(12.50m).Multiplie(0);
+        var montantApresMultiplication = Montant.De(12.50m).Multiplie(0);
 
-        Assert.Equal(Montant.Zero, resultat);
+        Assert.Equal(Montant.Zero, montantApresMultiplication);
     }
 
     [Fact]
