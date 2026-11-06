@@ -1,0 +1,121 @@
+[
+  {
+    "defects": [
+      {
+        "description": "Le nom `MeilleurTauPour` et l'absence de commentaire sur la règle « seul le palier le plus avantageux, parmi ceux atteints, s'applique » obligent le lecteur à déduire l'intention de la chaîne Where/Select/DefaultIfEmpty/Max. Les deux surcharges `RemisePour` (panier, ligne) ont le même nom pour deux niveaux de règle.",
+        "file": "src/Tarification.Domaine/GrilleDeRemise.cs",
+        "line": 20,
+        "occurrences": [],
+        "severity": "minor",
+        "severityReason": "Intention déductible du code ; simple confort de lecture.",
+        "target": "code",
+        "id": "cold-reader#1.1"
+      },
+      {
+        "description": "`Fraction(decimal tauxEnPourCent)` prend un décimal brut alors que le type `Pourcentage` existe ; le doc-comment explique l'unité, mais le nom « Fraction » pour un taux en pour-cent est ambigu (0,05 ou 5 ?). Côté `Pourcentage.De`, aucune borne n'est visible (le modèle annonçait 0 à 100) : un lecteur ne voit pas ce qui est autorisé.",
+        "file": "src/Tarification.Domaine/Montant.cs",
+        "line": 24,
+        "occurrences": [
+          "src/Tarification.Domaine/Pourcentage.cs:10"
+        ],
+        "severity": "minor",
+        "severityReason": "Ambiguïté de nom atténuée par le commentaire ; la justesse relève d'autres lentilles.",
+        "target": "code",
+        "id": "cold-reader#1.2"
+      }
+    ],
+    "lens": "cold-reader",
+    "verdict": "APPROVED"
+  },
+  {
+    "defects": [],
+    "lens": "test-integrity",
+    "verdict": "APPROVED"
+  },
+  {
+    "defects": [
+      {
+        "description": "Montant.Fraction(decimal) prend un taux brut et construit le Montant par le constructeur privé, sans passer par Montant.De. Le modèle prévoyait Pourcentage.Applique(Montant) → Montant.De(...) (domain-model.md, contracts.md). Un taux négatif donnerait un Montant négatif, contre l'invariant du type. GrilleDeRemise lit aussi Taux.Valeur au lieu de demander à Pourcentage d'appliquer le taux. Seul Pourcentage garantit 0–100, et il n'est pas utilisé comme prévu.",
+        "file": "src/Tarification.Domaine/Montant.cs",
+        "line": 24,
+        "severity": "minor",
+        "severityReason": "Écart au modèle ratifié sans conséquence sur les critères : le taux arrive validé par Pourcentage, et la méthode n'est appelée que depuis le domaine.",
+        "target": "code",
+        "id": "architecture#1.1"
+      },
+      {
+        "description": "RemisePour(LigneDePanier) est privée alors que contracts.md la déclare publique.",
+        "file": "src/Tarification.Domaine/GrilleDeRemise.cs",
+        "line": 17,
+        "severity": "minor",
+        "severityReason": "Écart mineur d'interface : aucun critère ni test ne l'appelle directement, et rendre la méthode privée réduit la surface plutôt que de la gonfler.",
+        "target": "code",
+        "id": "architecture#1.2"
+      }
+    ],
+    "lens": "architecture",
+    "verdict": "APPROVED"
+  },
+  {
+    "defects": [
+      {
+        "description": "Montant.Fraction construit un Montant sans garde de signe, contrairement à De et Multiplie. Avec un taux négatif (Pourcentage.De accepte n'importe quel decimal, cf. Pourcentage.cs:10, hors livrables de cette phase), la remise devient négative. Or la doc de Montant (lignes 4-5) affirme qu'un montant négatif n'existe pas dans ce domaine. Le prix final augmente alors sans erreur.",
+        "file": "src/Tarification.Domaine/Montant.cs",
+        "line": 24,
+        "occurrences": [
+          "src/Tarification.Domaine/Pourcentage.cs:10"
+        ],
+        "severity": "major",
+        "severityReason": "Une remise négative passe silencieusement et fausse le montant à payer, ce qui est un défaut majeur sur un chemin de calcul de prix.",
+        "target": "code",
+        "id": "quality-gates#1.1"
+      },
+      {
+        "description": "Fraction retourne une valeur non arrondie (par exemple 2,00 × 5 / 100 et autres montants à plus de deux décimales), alors que l'arrondi a été renvoyé à l'US-5. Le code ne le signale ni dans la doc ni dans un commentaire ; le comportement non décidé n'est donc pas visible.",
+        "file": "src/Tarification.Domaine/Montant.cs",
+        "line": 24,
+        "occurrences": [],
+        "severity": "minor",
+        "severityReason": "Un comportement délibérément non décidé, non documenté dans le code, peut être pris pour une règle établie, défaut mineur.",
+        "target": "code",
+        "id": "quality-gates#1.2"
+      }
+    ],
+    "lens": "quality-gates",
+    "verdict": "CHANGES_REQUESTED",
+    "notes": [
+      {
+        "description": "Pas dans la liste des livrables de cette phase, noté pour l'humain. Le pas 5 du plan d'implémentation prévoit les invariants de Pourcentage (0 à 100) et de PalierDeQuantite (seuil < 1, lève ArgumentOutOfRangeException). Aucun de ces invariants n'est implémenté, et aucun test unitaire n'a été ajouté (faits DELIVER). L'écart n'est pas déclaré. Les critères d'acceptance ne l'exigent pas, mais le plan le promettait.",
+        "file": "src/Tarification.Domaine/Pourcentage.cs",
+        "line": 10,
+        "occurrences": [
+          "src/Tarification.Domaine/PalierDeQuantite.cs:16"
+        ],
+        "severity": "minor",
+        "severityReason": "Un invariant planifié et non livré, sans déclaration, est un écart mineur, puisque aucun critère ne le couvre.",
+        "target": "code",
+        "id": "quality-gates#1.3"
+      },
+      {
+        "description": "Pas dans la liste des livrables de cette phase, noté pour l'humain. Le pas 1 nomme Pourcentage.Applique et PalierDeQuantite.EstAtteintPar, qui n'existent pas dans le code. La logique est en réalité dans GrilleDeRemise, et l'écart n'est pas déclaré.",
+        "file": ".skraft/us-2/distill/impl-plan.md",
+        "line": 7,
+        "occurrences": [],
+        "severity": "minor",
+        "severityReason": "Un plan qui nomme des méthodes absentes du code induit en erreur sur ce qui a été livré, défaut mineur.",
+        "target": "deliverable",
+        "id": "quality-gates#1.4"
+      },
+      {
+        "description": "Pas dans la liste des livrables de cette phase, noté pour l'humain. Les faits indiquent que la barre de qualité est lue à l'ancien emplacement et doit être déplacée vers .agent-studio/quality.yaml (ADR 0049). Ce déplacement n'est pas fait ni mentionné.",
+        "file": ".skraft/quality.json",
+        "line": 1,
+        "occurrences": [],
+        "severity": "minor",
+        "severityReason": "Une barre de qualité lue à un emplacement obsolète peut ne plus s'appliquer, défaut mineur.",
+        "target": "deliverable",
+        "id": "quality-gates#1.5"
+      }
+    ]
+  }
+]
