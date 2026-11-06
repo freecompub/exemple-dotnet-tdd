@@ -1,0 +1,58 @@
+[
+  {
+    "defects": [
+      {
+        "description": "Le scénario ac-3 écrit « 10 : 5 % » et « 50 : 12 % » sans dire que ce sont des seuils en articles, contrairement aux autres scénarios. « est chiffrée » est un terme technique : « calculée » se lirait mieux pour le métier.",
+        "file": ".skraft/us-2/distill/features/remise-par-palier.feature",
+        "line": 18,
+        "severity": "minor",
+        "severityReason": "Gêne de lecture légère ; le sens se déduit du reste du fichier.",
+        "target": "deliverable",
+        "id": "cold-reader#2.1",
+        "occurrencesNote": "occurrence retirée, fichier introuvable : remise-par-palier.feature:7, remise-par-palier.feature:26"
+      },
+      {
+        "description": "Le scénario ac-3 contient l'étape « un seul palier s'applique, le plus avantageux », et ac-4 l'étape « le palier de 10 n'est pas déclenché ». Les tests ne vérifient que la remise finale, sans assertion propre à ces étapes.",
+        "file": "tests/Tarification.Tests/RemiseParPalierAcceptanceTests.cs",
+        "line": 39,
+        "occurrences": [
+          "tests/Tarification.Tests/RemiseParPalierAcceptanceTests.cs:50"
+        ],
+        "severity": "minor",
+        "severityReason": "La remise attendue suffit à distinguer le cumul de la règle voulue ; l'écart est de lisibilité.",
+        "target": "test",
+        "id": "cold-reader#2.2"
+      }
+    ],
+    "lens": "cold-reader",
+    "verdict": "APPROVED"
+  },
+  {
+    "defects": [],
+    "lens": "test-integrity",
+    "verdict": "APPROVED"
+  },
+  {
+    "defects": [],
+    "lens": "architecture",
+    "verdict": "APPROVED"
+  },
+  {
+    "defects": [],
+    "lens": "quality-gates",
+    "verdict": "APPROVED",
+    "refuted": [
+      {
+        "description": "Le plan affirme que « les cinq tests sont rouges » contre le bouchon, chacun sur son assertion de remise. Or le dernier DISTILL_RED rapporte 5 réussis et 5 en échec, sans dire lesquels. Avec le bouchon à 0,01 €, les cinq tests d'acceptance doivent échouer : le plan ne réconcilie donc pas sa propre affirmation avec le résultat mesuré. Le plan doit soit citer la liste des tests en échec du dernier run, soit corriger l'affirmation.",
+        "file": ".skraft/us-2/distill/test-plan.md",
+        "line": 14,
+        "occurrences": [],
+        "severity": "major",
+        "severityReason": "Le gate RED est la preuve centrale de la phase DISTILL, et un plan qui contredit le résultat mesuré le rend non fidèle.",
+        "target": "deliverable",
+        "id": "quality-gates#2.1",
+        "refutation": "Le résultat mesuré ne contredit pas le plan, il le confirme. La suite compte 10 tests. `tests/Tarification.Tests/CalculDuPanierTests.cs:16-49` contient les 5 tests de l'US-1 : ils vérifient SommeDesArticles ou les contrats de Quantite et de Montant, jamais la remise, et passent donc quel que soit le bouchon. Les 5 tests d'acceptance attendent une remise de 0,00 €, 1,00 € ou 12,00 € (`tests/Tarification.Tests/RemiseParPalierAcceptanceTests.cs:24,35,46,58,69`). Or `src/Tarification.Domaine/GrilleDeRemise.cs:16` renvoie 0,01 €, valeur transmise telle quelle par `src/Tarification.Application/CalculDuPanier.cs:29`. Les 5 tests d'acceptance échouent donc forcément, et les 5 réussites sont exactement les tests de l'US-1. L'affirmation de `.skraft/us-2/distill/test-plan.md:14` est donc fidèle au run « 5 réussis, 5 en échec »."
+      }
+    ]
+  }
+]
