@@ -7,7 +7,10 @@ public readonly record struct TauxDeRemise
 
     private TauxDeRemise(decimal pourcentage) => Pourcentage = pourcentage;
 
-    public static TauxDeRemise De(decimal pourcentage) => new(pourcentage);
+    public static TauxDeRemise De(decimal pourcentage) =>
+        pourcentage is < 0 or > 100
+            ? throw new ArgumentOutOfRangeException(nameof(pourcentage), pourcentage, "Un taux de remise est compris entre 0 et 100.")
+            : new(pourcentage);
 
     public Montant AppliqueA(Montant montant) => montant.Part(Pourcentage);
 
