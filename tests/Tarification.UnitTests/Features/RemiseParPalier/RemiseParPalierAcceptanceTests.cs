@@ -20,4 +20,19 @@ public sealed class RemiseParPalierAcceptanceTests
         Assert.Equal(Montant.De(1.00m), facture.Remise);
         Assert.Equal(Montant.De(19.00m), facture.ATPayer);
     }
+
+    [Fact]
+    public void Le_client_obtient_seulement_le_palier_le_plus_avantageux()
+    {
+        var paliers = PaliersDeRemise.De(
+            new PalierDeRemise(Quantite.De(10), TauxDeRemise.De(5m)),
+            new PalierDeRemise(Quantite.De(50), TauxDeRemise.De(12m)));
+        var panier = new Panier()
+            .Ajoute(new LigneDePanier("MUG-01", Quantite.De(50), Montant.De(2.00m)));
+
+        var facture = new CalculDuPanier().Chiffrer(panier, paliers);
+
+        Assert.Equal(Montant.De(12.00m), facture.Remise);
+        Assert.Equal(Montant.De(88.00m), facture.ATPayer);
+    }
 }
