@@ -49,4 +49,19 @@ public sealed class RemiseParPalierAcceptanceTests
         Assert.Equal(Montant.De(0.00m), facture.Remise);
         Assert.Equal(Montant.De(18.00m), facture.ATPayer);
     }
+
+    [Fact]
+    public void Le_client_n_obtient_aucune_remise_quand_ses_references_n_atteignent_pas_le_palier_chacune()
+    {
+        var paliers = PaliersDeRemise.De(
+            new PalierDeRemise(Quantite.De(10), TauxDeRemise.De(5m)));
+        var panier = new Panier()
+            .Ajoute(new LigneDePanier("MUG-01", Quantite.De(6), Montant.De(2.00m)))
+            .Ajoute(new LigneDePanier("STY-07", Quantite.De(6), Montant.De(2.00m)));
+
+        var facture = new CalculDuPanier().Chiffrer(panier, paliers);
+
+        Assert.Equal(Montant.De(0.00m), facture.Remise);
+        Assert.Equal(Montant.De(24.00m), facture.ATPayer);
+    }
 }
