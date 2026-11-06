@@ -35,4 +35,18 @@ public sealed class RemiseParPalierAcceptanceTests
         Assert.Equal(Montant.De(12.00m), facture.Remise);
         Assert.Equal(Montant.De(88.00m), facture.ATPayer);
     }
+
+    [Fact]
+    public void Le_client_n_obtient_aucune_remise_sous_le_seuil_du_palier()
+    {
+        var paliers = PaliersDeRemise.De(
+            new PalierDeRemise(Quantite.De(10), TauxDeRemise.De(5m)));
+        var panier = new Panier()
+            .Ajoute(new LigneDePanier("MUG-01", Quantite.De(9), Montant.De(2.00m)));
+
+        var facture = new CalculDuPanier().Chiffrer(panier, paliers);
+
+        Assert.Equal(Montant.De(0.00m), facture.Remise);
+        Assert.Equal(Montant.De(18.00m), facture.ATPayer);
+    }
 }
