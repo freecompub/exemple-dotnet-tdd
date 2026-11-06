@@ -10,5 +10,7 @@ public readonly record struct Quantite
     public static Quantite De(int valeur) =>
         valeur < 1 ? throw new ArgumentOutOfRangeException(nameof(valeur), valeur, "Une quantité vaut au moins 1.") : new Quantite(valeur);
 
+    public bool Atteint(Quantite seuil) => Valeur >= seuil.Valeur;
+
     public override string ToString() => Valeur.ToString();
 }
