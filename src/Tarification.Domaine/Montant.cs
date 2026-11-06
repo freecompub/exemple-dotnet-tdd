@@ -21,7 +21,8 @@ public readonly record struct Montant : IComparable<Montant>
         facteur < 0 ? throw new ArgumentOutOfRangeException(nameof(facteur), facteur, "Un facteur négatif n'a pas de sens ici.") : new Montant(Euros * facteur);
 
     /// <summary>La part de ce montant correspondant à un taux exprimé en pour-cent.</summary>
-    public Montant Fraction(decimal tauxEnPourCent) => new(Euros * tauxEnPourCent / 100m);
+    public Montant Fraction(decimal tauxEnPourCent) =>
+        tauxEnPourCent < 0 ? throw new ArgumentOutOfRangeException(nameof(tauxEnPourCent), tauxEnPourCent, "Un taux négatif donnerait un montant négatif.") : new Montant(Euros * tauxEnPourCent / 100m);
 
     public int CompareTo(Montant autre) => Euros.CompareTo(autre.Euros);
 
