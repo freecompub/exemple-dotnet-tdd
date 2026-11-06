@@ -2,6 +2,7 @@
 
 En tant que client, je veux qu'une remise s'applique automatiquement quand j'achète une même
 référence en nombre, afin d'être encouragé à commander davantage d'un coup.
+- Les paliers ont les mêmes pour toutes les références
 
 ## Critères d'acceptation
 1. Palier « 10 articles ou plus : 5 % », ligne de 9 articles à 2,00 € : remise 0,00 €.
@@ -11,4 +12,3 @@ référence en nombre, afin d'être encouragé à commander davantage d'un coup.
 5. Aucun palier configuré : remise 0,00 €.
 
 ## Questions ouvertes
-- Les paliers sont-ils les mêmes pour toutes les références, ou définis par référence ?

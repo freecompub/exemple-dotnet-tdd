@@ -1,0 +1,3 @@
+skraft-config.json
+stories/US-2.md
+tests/Tarification.Tests/CalculDuPanierTests.cs

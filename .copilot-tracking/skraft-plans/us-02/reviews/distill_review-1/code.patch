@@ -1,0 +1,198 @@
+diff --git a/skraft-config.json b/skraft-config.json
+index 8dd5051..ae96e80 100644
+--- a/skraft-config.json
++++ b/skraft-config.json
+@@ -22,9 +22,11 @@
+     }
+   ],
+   "publish": {
+-    "pullRequest": true,
++    "pullRequest": false,
++    "visuals": true,
+     "questionVersions": {
+-      "pullRequest": 2
++      "pullRequest": 2,
++      "visuals": 1
+     }
+   }
+ }
+diff --git a/src/Tarification.Application/CalculDuPanier.cs b/src/Tarification.Application/CalculDuPanier.cs
+index 13fe52d..7642a46 100644
+--- a/src/Tarification.Application/CalculDuPanier.cs
++++ b/src/Tarification.Application/CalculDuPanier.cs
+@@ -19,4 +19,6 @@ public sealed record Facture(Montant SommeDesArticles, Montant Remise, Montant F
+ public sealed class CalculDuPanier
+ {
+     public Facture Chiffrer(Panier panier) => new(panier.SommeDesLignes(), Montant.Zero, Montant.Zero);
++
++    public Facture Chiffrer(Panier panier, PaliersDeRemise paliers) => new(panier.SommeDesLignes(), Montant.Zero, Montant.Zero);
+ }
+diff --git a/src/Tarification.Domaine/PalierDeRemise.cs b/src/Tarification.Domaine/PalierDeRemise.cs
+new file mode 100644
+index 0000000..13d13a2
+--- /dev/null
++++ b/src/Tarification.Domaine/PalierDeRemise.cs
+@@ -0,0 +1,4 @@
++namespace Tarification.Domaine;
++
++/// <summary>Un seuil de quantité de ligne et le taux de remise qu'il ouvre.</summary>
++public readonly record struct PalierDeRemise(Quantite Seuil, TauxDeRemise Taux);
+diff --git a/src/Tarification.Domaine/PaliersDeRemise.cs b/src/Tarification.Domaine/PaliersDeRemise.cs
+new file mode 100644
+index 0000000..4d972e4
+--- /dev/null
++++ b/src/Tarification.Domaine/PaliersDeRemise.cs
+@@ -0,0 +1,7 @@
++namespace Tarification.Domaine;
++
++/// <summary>Les paliers communs à toutes les références ; vide quand aucun n'est configuré.</summary>
++public sealed class PaliersDeRemise
++{
++    public static PaliersDeRemise De(params PalierDeRemise[] paliers) => new();
++}
+diff --git a/src/Tarification.Domaine/TauxDeRemise.cs b/src/Tarification.Domaine/TauxDeRemise.cs
+new file mode 100644
+index 0000000..89a4d55
+--- /dev/null
++++ b/src/Tarification.Domaine/TauxDeRemise.cs
+@@ -0,0 +1,9 @@
++namespace Tarification.Domaine;
++
++/// <summary>Un pourcentage de remise, entre 0 et 100 inclus.</summary>
++public readonly record struct TauxDeRemise
++{
++    public decimal Pourcentage { get; }
++
++    public static TauxDeRemise De(decimal pourcentage) => default;
++}
+diff --git a/stories/US-2.md b/stories/US-2.md
+index 9359993..f2dae7c 100644
+--- a/stories/US-2.md
++++ b/stories/US-2.md
+@@ -2,6 +2,7 @@
+ 
+ En tant que client, je veux qu'une remise s'applique automatiquement quand j'achète une même
+ référence en nombre, afin d'être encouragé à commander davantage d'un coup.
++- Les paliers ont les mêmes pour toutes les références
+ 
+ ## Critères d'acceptation
+ 1. Palier « 10 articles ou plus : 5 % », ligne de 9 articles à 2,00 € : remise 0,00 €.
+@@ -11,4 +12,3 @@ référence en nombre, afin d'être encouragé à commander davantage d'un coup.
+ 5. Aucun palier configuré : remise 0,00 €.
+ 
+ ## Questions ouvertes
+-- Les paliers sont-ils les mêmes pour toutes les références, ou définis par référence ?
+diff --git a/tests/Tarification.Tests/CalculDuPanierTests.cs b/tests/Tarification.Tests/CalculDuPanierTests.cs
+index 979e451..e14ae96 100644
+--- a/tests/Tarification.Tests/CalculDuPanierTests.cs
++++ b/tests/Tarification.Tests/CalculDuPanierTests.cs
+@@ -1,3 +1,5 @@
++using System.Globalization;
++using Tarification.Application;
+ using Tarification.Domaine;
+ using Xunit;
+ 
+@@ -8,16 +10,69 @@ namespace Tarification.Tests;
+ /// </summary>
+ public class CalculDuPanierTests
+ {
+-    [Fact]
+-    public void Une_quantite_nulle_ou_negative_n_existe_pas()
++    [Theory]
++    [InlineData(0)]
++    [InlineData(-2)]
++    public void Une_quantite_nulle_ou_negative_n_existe_pas(int valeur)
+     {
+-        Assert.Throws<ArgumentOutOfRangeException>(() => Quantite.De(0));
+-        Assert.Throws<ArgumentOutOfRangeException>(() => Quantite.De(-2));
++        var erreur = Assert.Throws<ArgumentOutOfRangeException>(() => Quantite.De(valeur));
++
++        Assert.Equal("valeur", erreur.ParamName);
++        Assert.Equal(valeur, erreur.ActualValue);
++        Assert.Contains("Une quantité vaut au moins 1.", erreur.Message);
+     }
+ 
+     [Fact]
+     public void Un_montant_negatif_n_existe_pas()
+     {
+-        Assert.Throws<ArgumentOutOfRangeException>(() => Montant.De(-0.01m));
++        var erreur = Assert.Throws<ArgumentOutOfRangeException>(() => Montant.De(-0.01m));
++
++        Assert.Equal("euros", erreur.ParamName);
++        Assert.Equal(-0.01m, erreur.ActualValue);
++        Assert.Contains("Un montant ne peut pas être négatif.", erreur.Message);
++    }
++
++    [Fact]
++    public void Le_client_peut_chiffrer_un_seul_article()
++    {
++        var panier = new Panier().Ajoute(new LigneDePanier("MUG-01", Quantite.De(1), Montant.De(4.50m)));
++
++        var facture = new CalculDuPanier().Chiffrer(panier);
++
++        Assert.Equal(Montant.De(4.50m), facture.SommeDesArticles);
++    }
++
++    [Fact]
++    public void Un_montant_multiplie_par_zero_vaut_zero()
++    {
++        var resultat = Montant.De(12.50m).Multiplie(0);
++
++        Assert.Equal(Montant.Zero, resultat);
++    }
++
++    [Fact]
++    public void Un_facteur_negatif_est_refuse()
++    {
++        var erreur = Assert.Throws<ArgumentOutOfRangeException>(() => Montant.De(12.50m).Multiplie(-1));
++
++        Assert.Equal("facteur", erreur.ParamName);
++        Assert.Equal(-1, erreur.ActualValue);
++        Assert.Contains("Un facteur négatif n'a pas de sens ici.", erreur.Message);
++    }
++
++    [Fact]
++    public void Un_montant_s_affiche_en_euros_avec_deux_decimales()
++    {
++        var cultureInitiale = CultureInfo.CurrentCulture;
++        try
++        {
++            CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo("fr-FR");
++
++            Assert.Equal("12,50 €", Montant.De(12.50m).ToString());
++        }
++        finally
++        {
++            CultureInfo.CurrentCulture = cultureInitiale;
++        }
+     }
+ }
+diff --git a/tests/Tarification.UnitTests/Features/RemiseParPalier/RemiseParPalierAcceptanceTests.cs b/tests/Tarification.UnitTests/Features/RemiseParPalier/RemiseParPalierAcceptanceTests.cs
+new file mode 100644
+index 0000000..aa27c3a
+--- /dev/null
++++ b/tests/Tarification.UnitTests/Features/RemiseParPalier/RemiseParPalierAcceptanceTests.cs
+@@ -0,0 +1,23 @@
++using Tarification.Application;
++using Tarification.Domaine;
++using Xunit;
++
++namespace Tarification.UnitTests.Features.RemiseParPalier;
++
++public sealed class RemiseParPalierAcceptanceTests
++{
++    [Fact]
++    public void Le_client_obtient_la_remise_quand_sa_ligne_atteint_le_palier()
++    {
++        // Le client obtient la remise quand sa ligne atteint le palier
++        var paliers = PaliersDeRemise.De(
++            new PalierDeRemise(Quantite.De(10), TauxDeRemise.De(5m)));
++        var panier = new Panier()
++            .Ajoute(new LigneDePanier("MUG-01", Quantite.De(10), Montant.De(2.00m)));
++
++        var facture = new CalculDuPanier().Chiffrer(panier, paliers);
++
++        Assert.Equal(Montant.De(1.00m), facture.Remise);
++        Assert.Equal(Montant.De(19.00m), facture.ATPayer);
++    }
++}

@@ -1,0 +1,56 @@
+status: "APPROVED"
+code: null
+summary: "APPROVED: no finding counts; 1 refuted (test-integrity F1); 4 notes (architecture-boundaries F1, architecture-boundaries F2, architecture-boundaries F3, architecture-boundaries F4)"
+findings: []
+notes:
+  - lens: "architecture-boundaries"
+    id: "F1"
+    gate: "G10"
+    severity: "medium"
+    location: "src/Tarification.Domaine/Panier.cs:8"
+    description: "L’agrégat Panier expose sa collection par un getter public, contrairement à la règle qui interdit les getters publics sur les entités."
+    suggestion: "Remplacez l’exposition de Lignes par des comportements de domaine."
+    severityReason: "Cela expose les détails internes de l’agrégat aux appelants du domaine."
+    drift: "structural"
+    occurrences: "src/Tarification.Domaine/Panier.cs:8"
+    since: 1
+  - lens: "architecture-boundaries"
+    id: "F2"
+    gate: "G10"
+    severity: "medium"
+    location: "src/Tarification.Domaine/LigneDePanier.cs:4"
+    description: "LigneDePanier a trois attributs d’instance, au-delà du maximum de deux."
+    suggestion: "Décomposez la ligne pour limiter chaque classe à deux attributs d’instance."
+    severityReason: "Cela enfreint la règle de taille structurelle des objets du domaine."
+    drift: "structural"
+    occurrences: "src/Tarification.Domaine/LigneDePanier.cs:4"
+    since: 1
+  - lens: "architecture-boundaries"
+    id: "F3"
+    gate: "G10"
+    severity: "medium"
+    location: "src/Tarification.Domaine/LigneDePanier.cs:4"
+    description: "La référence métier est représentée par le type primitif string au lieu d’un type enveloppe."
+    suggestion: "Introduisez un objet-valeur pour la référence."
+    severityReason: "Cela laisse une donnée métier primitive sans validation ni sémantique de domaine."
+    drift: "structural"
+    occurrences: "src/Tarification.Domaine/LigneDePanier.cs:4"
+    since: 1
+  - lens: "architecture-boundaries"
+    id: "F4"
+    gate: "G10"
+    severity: "medium"
+    location: "src/Tarification.Domaine/ChiffrageDuPanier.cs:6"
+    description: "Le nom ATPayer est une abréviation dans le domaine."
+    suggestion: "Renommez la propriété MontantAPayer."
+    severityReason: "Cela enfreint la règle de nommage sans abréviations dans le domaine."
+    drift: "structural"
+    occurrences: "src/Tarification.Domaine/ChiffrageDuPanier.cs:6"
+    since: 1
+refutations:
+  - lens: "test-integrity"
+    finding: "F1"
+    verdict: "refuted"
+    reason: "The ordered test plan at .copilot-tracking/skraft-plans/us-02/details/2026-11-06/ordered-tests-us-02.md:9 explicitly plans a unit Application test for AC-2 net payable after discount, matching ChiffrageNetTests."
+    carried: 1
+reused: []

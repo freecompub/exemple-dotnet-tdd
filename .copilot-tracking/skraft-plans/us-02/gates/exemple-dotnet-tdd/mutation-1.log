@@ -1,0 +1,9 @@
+$ node /Users/b283ko/.copilot/installed-plugins/freecompub-skraft-plugin/skraft/skills/quality-gates-dotnet/scripts/mutation-core.mjs --root . --evidence .copilot-tracking/skraft-gates/mutation --since 1eae6d6a4a4e12eb127d2470cebe93b2e911cbff
+cwd: .
+result: pass: exited 1, each scope meets its bar
+--- stdout
+{"gate":"mutation","scope":"Domain,Application","expected":100,"solution":"/Users/b283ko/Projet/exemple-dotnet-tdd/Tarification.sln","config":"/Users/b283ko/Projet/exemple-dotnet-tdd/stryker-config-core.json","report":"/Users/b283ko/Projet/exemple-dotnet-tdd/.copilot-tracking/skraft-gates/mutation/qg-mutation-report.json","since":"1eae6d6a4a4e12eb127d2470cebe93b2e911cbff","passed":false,"exit":1}
+
+--- stderr
+Mutation score (Domain,Application): 39/47 tested mutants detected = 82.97%, bar 100%
+

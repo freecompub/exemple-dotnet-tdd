@@ -1,0 +1,12 @@
+status: "APPROVED"
+code: null
+summary: "APPROVED: no finding counts; 1 refuted (consistency F1)"
+findings: []
+notes: []
+refutations:
+  - lens: "consistency"
+    finding: "F1"
+    verdict: "refuted"
+    reason: "docs/architecture/context-map.md:9 décrit Core comme une responsabilité existante, sans nouvelle frontière ni service, fondée sur ADR-001. .copilot-tracking/skraft-plans/us-02/details/2026-11-06/consistency-matrix-us-02.md:7,13 confirme la réutilisation du contexte et la conservation des diagrammes sans réécriture. La lens limite leur examen aux ajouts ou modifications du patch ; design.patch est vide. Ce contexte inchangé ne justifie donc pas de renvoyer cette passe."
+    dissent: true
+reused: []

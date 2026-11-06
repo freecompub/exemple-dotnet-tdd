@@ -1,0 +1,13 @@
+[
+  {
+    "name": "exemple-dotnet-tdd",
+    "root": ".",
+    "stack": "dotnet",
+    "mocking": {
+      "strategy": "microcks"
+    },
+    "contractTesting": false,
+    "bdd": true,
+    "gates": []
+  }
+]

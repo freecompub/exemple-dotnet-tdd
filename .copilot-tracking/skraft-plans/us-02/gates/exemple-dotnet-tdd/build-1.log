@@ -1,0 +1,19 @@
+$ dotnet build --nologo
+cwd: .
+result: pass: exited 0
+--- stdout
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  Tarification.Domaine -> /Users/b283ko/Projet/exemple-dotnet-tdd/src/Tarification.Domaine/bin/Debug/net10.0/Tarification.Domaine.dll
+  Tarification.Application -> /Users/b283ko/Projet/exemple-dotnet-tdd/src/Tarification.Application/bin/Debug/net10.0/Tarification.Application.dll
+  Tarification.Tests -> /Users/b283ko/Projet/exemple-dotnet-tdd/tests/Tarification.Tests/bin/Debug/net10.0/Tarification.Tests.dll
+  Tarification.UnitTests -> /Users/b283ko/Projet/exemple-dotnet-tdd/tests/Tarification.UnitTests/bin/Debug/net10.0/Tarification.UnitTests.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:00.60
+
+--- stderr
+

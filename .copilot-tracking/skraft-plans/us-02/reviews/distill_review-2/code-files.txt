@@ -1,0 +1,8 @@
+skraft-config.json
+src/Tarification.Application/CalculDuPanier.cs
+src/Tarification.Domaine/PalierDeRemise.cs
+src/Tarification.Domaine/PaliersDeRemise.cs
+src/Tarification.Domaine/TauxDeRemise.cs
+stories/US-2.md
+tests/Tarification.Tests/CalculDuPanierTests.cs
+tests/Tarification.UnitTests/Features/RemiseParPalier/RemiseParPalierAcceptanceTests.cs

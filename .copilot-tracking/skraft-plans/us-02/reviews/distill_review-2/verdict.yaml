@@ -1,0 +1,45 @@
+status: "APPROVED"
+code: null
+summary: "APPROVED: no finding counts; 1 refuted (business-alignment F1); 3 notes (business-alignment F2, business-alignment F3, boundary-enforcement F1)"
+findings: []
+notes:
+  - lens: "business-alignment"
+    id: "F2"
+    gate: "G3"
+    severity: "high"
+    location: "docs/features/tarification/remise-par-palier.feature:12"
+    description: "« Montant à payer » is not part of the story's domain vocabulary."
+    suggestion: "Use only outcome terms from the story."
+    severityReason: "A non-technical stakeholder may not recognize this added outcome as part of the story."
+    drift: "label"
+    occurrences: "docs/features/tarification/remise-par-palier.feature:12, docs/features/tarification/remise-par-palier.feature:21, docs/features/tarification/remise-par-palier.feature:30, docs/features/tarification/remise-par-palier.feature:39, docs/features/tarification/remise-par-palier.feature:47"
+    since: 1
+  - lens: "business-alignment"
+    id: "F3"
+    gate: "B1"
+    severity: "high"
+    location: "docs/features/tarification/remise-par-palier.feature:12"
+    description: "Each scenario also specifies a « montant à payer », an outcome the story does not ask for."
+    suggestion: "Remove the amount-payable assertions from the scenarios."
+    severityReason: "This adds behavior outside the story's requested outcomes and may send DELIVER to implement an unrequested requirement."
+    drift: "classification"
+    occurrences: "docs/features/tarification/remise-par-palier.feature:12, docs/features/tarification/remise-par-palier.feature:21, docs/features/tarification/remise-par-palier.feature:30, docs/features/tarification/remise-par-palier.feature:39, docs/features/tarification/remise-par-palier.feature:47"
+    since: 1
+  - lens: "boundary-enforcement"
+    id: "F1"
+    gate: "G7"
+    severity: "blocker"
+    location: ".copilot-tracking/skraft-plans/us-02/details/2026-11-06/test-plan-us-02.md:12"
+    description: "The test-plan scenario for rejecting a discount rate outside 0–100 targets the Domain factory TauxDeRemise.De, not the Application use case named in the contracts."
+    suggestion: "Keep this technical validation as an inner-loop unit case, not a test-plan scenario."
+    severityReason: "This breaks the required Application boundary for test-plan scenarios and sends DELIVER toward testing a later circle as acceptance coverage."
+    drift: "classification"
+    occurrences: ".copilot-tracking/skraft-plans/us-02/details/2026-11-06/test-plan-us-02.md:12, .copilot-tracking/skraft-plans/us-02/details/2026-11-06/impl-plan-us-02.md:12"
+    since: 1
+refutations:
+  - lens: "business-alignment"
+    finding: "F1"
+    verdict: "refuted"
+    reason: "tests/Tarification.UnitTests/Features/panier-chiffrage.feature:10 already uses « le client chiffre son panier »; contracts-us-02.md:7 names Chiffrer as the Query, so the action is established in the project documents."
+    dissent: true
+reused: []

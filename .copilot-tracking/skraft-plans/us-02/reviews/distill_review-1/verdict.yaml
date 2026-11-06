@@ -1,0 +1,29 @@
+status: "NEEDS_REWORK"
+code: null
+summary: "NEEDS_REWORK: 1 reason to address; 2 refuted (business-alignment F1, boundary-enforcement F1)"
+findings:
+  - lens: "testability"
+    id: "F1"
+    gate: "T3"
+    severity: "blocker"
+    location: "src/Tarification.Application/CalculDuPanier.cs:22"
+    description: "The new Chiffrer overload computes and returns the basket total instead of being a behavior-free skeleton. This contradicts the implementation plan's claim that the signatures are empty; the first acceptance test does fail on its discount assertion, but the required skeleton condition is not met."
+    suggestion: "Keep the new production boundary behavior-free for the first RED acceptance test."
+    severityReason: "The initial RED checkpoint is not against the required skeleton, so the test cannot establish the business failure under the prescribed outside-in process."
+    drift: "structural"
+    occurrences: "src/Tarification.Application/CalculDuPanier.cs:22, .copilot-tracking/skraft-plans/us-02/details/2026-11-06/impl-plan-us-02.md:3"
+notes: []
+refutations:
+  - lens: "business-alignment"
+    finding: "F1"
+    verdict: "refuted"
+    reason: "docs/domain/event-model/tarification.md:28-38 gives expected amounts to pay for the acceptance criteria, so these outcomes are specified rather than added behavior."
+  - lens: "testability"
+    finding: "F1"
+    verdict: "confirmed"
+    reason: "src/Tarification.Application/CalculDuPanier.cs:23 shows the new overload computes the sum of basket lines and returns it with zero discount, rather than returning an empty-value skeleton."
+  - lens: "boundary-enforcement"
+    finding: "F1"
+    verdict: "refuted"
+    reason: ".copilot-tracking/skraft-plans/us-02/details/2026-11-06/test-plan-us-02.md:13 marks this Domain row branch_unreachable_via_AC, which the G7 criteria exempt from a finding for that reason alone."
+reused: []

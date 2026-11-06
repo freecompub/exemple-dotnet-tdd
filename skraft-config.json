@@ -22,9 +22,11 @@
     }
   ],
   "publish": {
-    "pullRequest": true,
+    "pullRequest": false,
+    "visuals": true,
     "questionVersions": {
-      "pullRequest": 2
+      "pullRequest": 2,
+      "visuals": 1
     }
   }
 }

@@ -1,0 +1,12 @@
+docs/adr/adr-003-classification-chiffrage-panier.md
+docs/adr/decisions-index.md
+docs/features/.gitkeep
+docs/features/tarification/remise-par-palier.feature
+skraft-config.json
+src/Tarification.Application/CalculDuPanier.cs
+src/Tarification.Domaine/PalierDeRemise.cs
+src/Tarification.Domaine/PaliersDeRemise.cs
+src/Tarification.Domaine/TauxDeRemise.cs
+stories/US-2.md
+tests/Tarification.Tests/CalculDuPanierTests.cs
+tests/Tarification.UnitTests/Features/RemiseParPalier/RemiseParPalierAcceptanceTests.cs

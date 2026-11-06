@@ -13,9 +13,9 @@ Test run for /Users/b283ko/Projet/exemple-dotnet-tdd/tests/Tarification.UnitTest
 A total of 1 test files matched the specified pattern.
 A total of 1 test files matched the specified pattern.
 
-Passed!  - Failed:     0, Passed:     2, Skipped:     0, Total:     2, Duration: 7 ms - Tarification.Tests.dll (net10.0)
+Passed!  - Failed:     0, Passed:     7, Skipped:     0, Total:     7, Duration: 11 ms - Tarification.Tests.dll (net10.0)
 
-Passed!  - Failed:     0, Passed:     3, Skipped:     0, Total:     3, Duration: 29 ms - Tarification.UnitTests.dll (net10.0)
+Passed!  - Failed:     0, Passed:     3, Skipped:     0, Total:     3, Duration: 32 ms - Tarification.UnitTests.dll (net10.0)
 
 --- stderr
 

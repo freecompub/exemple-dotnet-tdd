@@ -1,0 +1,4 @@
+{
+  "status": "done",
+  "summary": "US-02 livrée en cycles RED/GREEN commités : remise par ligne, sélection du taux admissible maximal sans cumul, montant net calculé dans Domaine, compatibilité sans paliers et validation des taux. Les cinq scénarios passent ; 18 tests réussis, aucun ignoré. dotnet build --nologo et dotnet format --verify-no-changes réussissent sans avertissement ; aucun lint configuré. Journal mis à jour. Modifications préexistantes laissées intactes."
+}
