@@ -12,7 +12,7 @@ public readonly record struct TauxDeRemise
             ? throw new ArgumentOutOfRangeException(nameof(pourcentage), pourcentage, "Un taux de remise est compris entre 0 et 100.")
             : new(pourcentage);
 
-    public Montant AppliqueA(Montant montant) => montant.Part(Pourcentage);
+    public Montant AppliqueA(Montant montant) => montant.Part(this);
 
     public TauxDeRemise LePlusAvantageux(TauxDeRemise autre) =>
         Pourcentage >= autre.Pourcentage ? this : autre;

@@ -15,16 +15,24 @@ public readonly record struct Montant : IComparable<Montant>
 
     public static Montant Zero { get; } = new(0m);
 
-    public static Montant operator +(Montant a, Montant b) => new(a.Euros + b.Euros);
+    public static Montant operator +(Montant premier, Montant second)
+    {
+        var eurosDuPremier = premier.Euros;
+        return new(eurosDuPremier + second.Euros);
+    }
 
     public Montant Multiplie(int facteur) =>
         facteur < 0 ? throw new ArgumentOutOfRangeException(nameof(facteur), facteur, "Un facteur négatif n'a pas de sens ici.") : new Montant(Euros * facteur);
 
-    internal Montant Part(decimal pourcentage) => De(Euros * pourcentage / 100m);
+    internal Montant Part(TauxDeRemise taux) => De(Euros * taux.Pourcentage / 100m);
 
     public Montant Moins(Montant remise) => De(Euros - remise.Euros);
 
-    public int CompareTo(Montant autre) => Euros.CompareTo(autre.Euros);
+    public int CompareTo(Montant autre)
+    {
+        var eurosDeLAutre = autre.Euros;
+        return Euros.CompareTo(eurosDeLAutre);
+    }
 
     public override string ToString() => $"{Euros:0.00} €";
 }

@@ -22,5 +22,8 @@ public sealed record PaliersDeRemise
         autre is not null && _paliers.SequenceEqual(autre._paliers);
 
     public override int GetHashCode() =>
-        _paliers.Aggregate(0, (empreinte, palier) => HashCode.Combine(empreinte, palier));
+        _paliers.Aggregate(0, CombineEmpreinte);
+
+    private static int CombineEmpreinte(int empreinte, PalierDeRemise palier) =>
+        HashCode.Combine(empreinte, palier);
 }
