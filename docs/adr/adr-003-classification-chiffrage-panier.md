@@ -1,18 +1,18 @@
 ---
 adr: 003
 title: Classification du chiffrage du panier
-status: Proposed
+status: Accepted
 chosen: Query
 decision: >
   Nous classons le chiffrage du panier comme une Query pure sur le panier et les paliers fournis, sans mutation ni événement, retournant une Facture.
 supersedes: null
 date: 2026-11-06
-ratified_by: null
+ratified_by: "human 2026-11-06"
 ---
 
 # ADR-003: Classification du chiffrage du panier
 
-**Status:** Proposed
+**Status:** Accepted
 **Date:** 2026-11-06
 
 ## Context
