@@ -11,7 +11,16 @@ public sealed class GrilleDeRemise
 
     public static GrilleDeRemise De(params PalierDeQuantite[] paliers) => new(paliers);
 
-    // Bouchon : une remise arbitraire, ni nulle ni égale à une valeur attendue, pour que chaque
-    // scénario échoue sur son assertion tant que la règle n'est pas implémentée.
-    public Montant RemisePour(Panier panier) => Montant.De(0.01m);
+    public Montant RemisePour(Panier panier) =>
+        panier.Lignes.Aggregate(Montant.Zero, (total, ligne) => total + RemisePour(ligne));
+
+    private Montant RemisePour(LigneDePanier ligne) =>
+        ligne.SousTotal.Fraction(MeilleurTauPour(ligne.Quantite));
+
+    private decimal MeilleurTauPour(Quantite quantite) =>
+        Paliers
+            .Where(palier => palier.Seuil.Valeur <= quantite.Valeur)
+            .Select(palier => palier.Taux.Valeur)
+            .DefaultIfEmpty(0m)
+            .Max();
 }
