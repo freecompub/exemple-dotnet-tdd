@@ -3,13 +3,15 @@ using Tarification.Domaine;
 namespace Tarification.Application;
 
 /// <summary>
-/// Ce qu'un client doit payer, et le détail qui l'explique. Les remises et les frais de port
-/// restent à zéro tant que les stories correspondantes ne sont pas livrées : mieux vaut un champ
-/// visiblement vide qu'un champ absent qu'on oublierait de remplir.
+/// Ce qu'un client doit payer, et le détail du chiffrage calculé dans le domaine.
 /// </summary>
-public sealed record Facture(Montant SommeDesArticles, Montant Remise, Montant FraisDePort)
+public sealed record Facture(Montant SommeDesArticles, Montant Remise, Montant FraisDePort, Montant ATPayer)
 {
-    public Montant ATPayer => SommeDesArticles + FraisDePort;
+    public Facture(Montant sommeDesArticles, Montant remise, Montant fraisDePort)
+        : this(sommeDesArticles, remise, fraisDePort,
+            new ChiffrageDuPanier(new BilanArticles(sommeDesArticles, remise), fraisDePort).ATPayer)
+    {
+    }
 }
 
 /// <summary>
@@ -18,7 +20,12 @@ public sealed record Facture(Montant SommeDesArticles, Montant Remise, Montant F
 /// </summary>
 public sealed class CalculDuPanier
 {
-    public Facture Chiffrer(Panier panier) => new(panier.SommeDesLignes(), Montant.Zero, Montant.Zero);
+    public Facture Chiffrer(Panier panier) => Chiffrer(panier, PaliersDeRemise.De());
 
-    public Facture Chiffrer(Panier panier, PaliersDeRemise paliers) => new(Montant.Zero, Montant.Zero, Montant.Zero);
+    public Facture Chiffrer(Panier panier, PaliersDeRemise paliers)
+    {
+        var chiffrage = panier.Chiffrer(paliers);
+        var bilan = chiffrage.Bilan;
+        return new Facture(bilan.Articles, bilan.Remise, chiffrage.FraisDePort, chiffrage.ATPayer);
+    }
 }

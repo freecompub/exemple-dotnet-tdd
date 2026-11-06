@@ -14,4 +14,9 @@ public sealed class Panier
     }
 
     public Montant SommeDesLignes() => _lignes.Aggregate(Montant.Zero, (total, l) => total + l.SousTotal);
+
+    public ChiffrageDuPanier Chiffrer(PaliersDeRemise paliers) =>
+        new(new BilanArticles(SommeDesLignes(),
+            _lignes.Aggregate(Montant.Zero, (remise, ligne) => remise + ligne.Remise(paliers))),
+            Montant.Zero);
 }

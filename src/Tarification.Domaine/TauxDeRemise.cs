@@ -5,5 +5,9 @@ public readonly record struct TauxDeRemise
 {
     public decimal Pourcentage { get; }
 
-    public static TauxDeRemise De(decimal pourcentage) => default;
+    private TauxDeRemise(decimal pourcentage) => Pourcentage = pourcentage;
+
+    public static TauxDeRemise De(decimal pourcentage) => new(pourcentage);
+
+    public Montant AppliqueA(Montant montant) => montant.Part(Pourcentage);
 }
