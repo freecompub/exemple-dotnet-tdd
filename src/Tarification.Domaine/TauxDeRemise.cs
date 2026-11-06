@@ -10,4 +10,7 @@ public readonly record struct TauxDeRemise
     public static TauxDeRemise De(decimal pourcentage) => new(pourcentage);
 
     public Montant AppliqueA(Montant montant) => montant.Part(Pourcentage);
+
+    public TauxDeRemise LePlusAvantageux(TauxDeRemise autre) =>
+        Pourcentage >= autre.Pourcentage ? this : autre;
 }

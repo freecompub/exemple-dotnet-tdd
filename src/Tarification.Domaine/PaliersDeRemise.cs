@@ -9,11 +9,8 @@ public sealed record PaliersDeRemise
 
     public static PaliersDeRemise De(params PalierDeRemise[] paliers) => new(paliers);
 
-    public TauxDeRemise TauxPour(Quantite quantite)
-    {
-        var palier = _paliers.FirstOrDefault();
-        return palier.Taux;
-    }
+    public TauxDeRemise TauxPour(Quantite quantite) =>
+        _paliers.Aggregate(default(TauxDeRemise), (taux, palier) => taux.LePlusAvantageux(palier.Taux));
 
     public bool Equals(PaliersDeRemise? autre) =>
         autre is not null && _paliers.SequenceEqual(autre._paliers);
