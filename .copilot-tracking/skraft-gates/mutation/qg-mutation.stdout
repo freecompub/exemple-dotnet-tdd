@@ -1,0 +1,94 @@
+
+[38;5;11m   _____ _              _               _   _ ______ _______  [0m
+[38;5;11m  / ____| |            | |             | \ | |  ____|__   __| [0m
+[38;5;11m | (___ | |_ _ __ _   _| | _____ _ __  |  \| | |__     | |    [0m
+[38;5;11m  \___ \| __| '__| | | | |/ / _ \ '__| | . ` |  __|    | |    [0m
+[38;5;11m  ____) | |_| |  | |_| |   <  __/ |    | |\  | |____   | |    [0m
+[38;5;11m |_____/ \__|_|   \__, |_|\_\___|_| (_)|_| \_|______|  |_|    [0m
+[38;5;11m                   __/ |                                      [0m
+[38;5;11m                  |___/                                       [0m
+
+
+Version: [38;5;2m4.14.1[0m
+
+[38;5;11mA new version of Stryker.NET (5.0.0) is available. Please consider upgrading [0m
+[38;5;11musing `dotnet tool update -g dotnet-stryker`[0m
+
+[10:34:50 INF] Analysis starting.
+[10:34:50 INF] Stryker will mutate solution Tarification.
+[10:34:50 INF] Using configuration/platform 'Debug|Any CPU'.
+[10:34:50 INF] Identifying projects to mutate in /Users/b283ko/Projet/exemple-dotnet-tdd/Tarification.sln. This can take a while.
+[10:34:51 INF] Found project /Users/b283ko/Projet/exemple-dotnet-tdd/src/Tarification.Application/Tarification.Application.csproj to mutate.
+[10:34:51 INF] Found project /Users/b283ko/Projet/exemple-dotnet-tdd/src/Tarification.Domaine/Tarification.Domaine.csproj to mutate.
+[10:34:51 INF] Analysis complete.
+[10:34:51 INF] Building solution Tarification.sln.
+[10:34:51 INF] Building project Tarification.sln using dotnet build Tarification.sln -c Debug --property:Platform="Any CPU" (directory /Users/b283ko/Projet/exemple-dotnet-tdd.)
+[10:34:54 INF] Number of tests found: 5 for project /Users/b283ko/Projet/exemple-dotnet-tdd/src/Tarification.Application/Tarification.Application.csproj. Initial test run started.
+[10:34:55 INF] Number of tests found: 5 for project /Users/b283ko/Projet/exemple-dotnet-tdd/src/Tarification.Domaine/Tarification.Domaine.csproj. Initial test run started.
+[10:34:56 INF] 22 mutants created
+[10:34:56 INF] Capture mutant coverage using 'CoverageBasedTest' mode.
+[10:34:57 ERR] It looks like the test coverage capture failed. Disable coverage based optimisation.
+[10:34:58 INF] 15 files changed
+[10:34:58 INF] Changed test file /Users/b283ko/Projet/exemple-dotnet-tdd/.agent-studio/stack.yaml
+[10:34:58 INF] Changed test file /Users/b283ko/Projet/exemple-dotnet-tdd/.copilot-tracking/skraft-doctor/exemple-dotnet-tdd/build.log
+[10:34:58 INF] Changed test file /Users/b283ko/Projet/exemple-dotnet-tdd/.copilot-tracking/skraft-doctor/exemple-dotnet-tdd/format.log
+[10:34:58 INF] Changed test file /Users/b283ko/Projet/exemple-dotnet-tdd/.copilot-tracking/skraft-doctor/exemple-dotnet-tdd/mutation.log
+[10:34:58 INF] Changed test file /Users/b283ko/Projet/exemple-dotnet-tdd/.copilot-tracking/skraft-doctor/exemple-dotnet-tdd/test.log
+[10:34:58 INF] Changed test file /Users/b283ko/Projet/exemple-dotnet-tdd/.copilot-tracking/skraft-gates/mutation/qg-mutation-report.json
+[10:34:58 INF] Changed test file /Users/b283ko/Projet/exemple-dotnet-tdd/.copilot-tracking/skraft-gates/mutation/qg-mutation.exit
+[10:34:58 INF] Changed test file /Users/b283ko/Projet/exemple-dotnet-tdd/.copilot-tracking/skraft-gates/mutation/qg-mutation.json
+[10:34:58 INF] Changed test file /Users/b283ko/Projet/exemple-dotnet-tdd/.copilot-tracking/skraft-gates/mutation/qg-mutation.stdout
+[10:34:58 INF] Changed test file /Users/b283ko/Projet/exemple-dotnet-tdd/.copilot-tracking/skraft-gates/mutation/qg-mutation.stdout.sha256
+[10:34:58 INF] Changed test file /Users/b283ko/Projet/exemple-dotnet-tdd/.gitignore
+[10:34:58 INF] Changed test file /Users/b283ko/Projet/exemple-dotnet-tdd/.skraft/quality.json
+[10:34:58 INF] Changed test file /Users/b283ko/Projet/exemple-dotnet-tdd/dotnet-tools.json
+[10:34:58 INF] Changed test file /Users/b283ko/Projet/exemple-dotnet-tdd/skraft-config.json
+[10:34:58 INF] Changed test file /Users/b283ko/Projet/exemple-dotnet-tdd/stryker-config-core.json
+[10:34:58 INF] 15 files changed
+[10:34:58 INF] Changed test file /Users/b283ko/Projet/exemple-dotnet-tdd/.agent-studio/stack.yaml
+[10:34:58 INF] Changed test file /Users/b283ko/Projet/exemple-dotnet-tdd/.copilot-tracking/skraft-doctor/exemple-dotnet-tdd/build.log
+[10:34:58 INF] Changed test file /Users/b283ko/Projet/exemple-dotnet-tdd/.copilot-tracking/skraft-doctor/exemple-dotnet-tdd/format.log
+[10:34:58 INF] Changed test file /Users/b283ko/Projet/exemple-dotnet-tdd/.copilot-tracking/skraft-doctor/exemple-dotnet-tdd/mutation.log
+[10:34:58 INF] Changed test file /Users/b283ko/Projet/exemple-dotnet-tdd/.copilot-tracking/skraft-doctor/exemple-dotnet-tdd/test.log
+[10:34:58 INF] Changed test file /Users/b283ko/Projet/exemple-dotnet-tdd/.copilot-tracking/skraft-gates/mutation/qg-mutation-report.json
+[10:34:58 INF] Changed test file /Users/b283ko/Projet/exemple-dotnet-tdd/.copilot-tracking/skraft-gates/mutation/qg-mutation.exit
+[10:34:58 INF] Changed test file /Users/b283ko/Projet/exemple-dotnet-tdd/.copilot-tracking/skraft-gates/mutation/qg-mutation.json
+[10:34:58 INF] Changed test file /Users/b283ko/Projet/exemple-dotnet-tdd/.copilot-tracking/skraft-gates/mutation/qg-mutation.stdout
+[10:34:58 INF] Changed test file /Users/b283ko/Projet/exemple-dotnet-tdd/.copilot-tracking/skraft-gates/mutation/qg-mutation.stdout.sha256
+[10:34:58 INF] Changed test file /Users/b283ko/Projet/exemple-dotnet-tdd/.gitignore
+[10:34:58 INF] Changed test file /Users/b283ko/Projet/exemple-dotnet-tdd/.skraft/quality.json
+[10:34:58 INF] Changed test file /Users/b283ko/Projet/exemple-dotnet-tdd/dotnet-tools.json
+[10:34:58 INF] Changed test file /Users/b283ko/Projet/exemple-dotnet-tdd/skraft-config.json
+[10:34:58 INF] Changed test file /Users/b283ko/Projet/exemple-dotnet-tdd/stryker-config-core.json
+[10:34:58 INF] 2     mutants got status CompileError. Reason: Mutant caused compile errors
+[10:34:58 INF] 2     mutants got status NoCoverage.   Reason: Not covered by any test.
+[10:34:58 INF] 1     mutants got status Ignored.      Reason: Removed by block already covered filter
+[10:34:58 INF] 5     total mutants are skipped for the above mentioned reasons
+[10:34:58 INF] 17    mutants will be tested because: Non-CSharp files in test project were changed
+[10:34:58 INF] 17    total mutants will be tested
+
+
+All mutants have been tested, and your mutation score has been calculated
+╭──────────────────┬────────┬─────────┬──────────┬───────────┬─────────┬───────╮
+│ File             │     %  │      #  │       #  │        #  │   # no  │    #  │
+│                  │  score │  killed │  timeout │  survived │     cov │ error │
+├──────────────────┼────────┼─────────┼──────────┼───────────┼─────────┼───────┤
+│ All files        │  [38;5;9m63,16[0m │      12 │        0 │        10 │       2 │     2 │
+│ CalculDuPanier.c │    [38;5;8mN/A[0m │       0 │        0 │         1 │       0 │     1 │
+│ s                │        │         │          │           │         │       │
+│ LigneDePanier.cs │    [38;5;8mN/A[0m │       0 │        0 │         0 │       0 │     0 │
+│ Montant.cs       │  [38;5;9m61,54[0m │       8 │        0 │         5 │       2 │     0 │
+│ Panier.cs        │ [38;5;2m100,00[0m │       1 │        0 │         2 │       0 │     1 │
+│ Quantite.cs      │  [38;5;9m60,00[0m │       3 │        0 │         2 │       0 │     0 │
+╰──────────────────┴────────┴─────────┴──────────┴───────────┴─────────┴───────╯
+
+[38;5;2mYour json report has been generated at:[0m
+]8;id=1119887200;file:///var/folders/q0/zz_gtf8x0cb9dvz3q9bfjhs40000gp/T/skraft-qg-mutation.f2z7Tv/reports/mutation-report.json\[38;5;2m/var/folders/q0/zz_gtf8x0cb9dvz3q9bfjhs40000gp/T/skraft-qg-mutation.f2z7Tv/repor[0m]8;;\
+]8;id=716103128;file:///var/folders/q0/zz_gtf8x0cb9dvz3q9bfjhs40000gp/T/skraft-qg-mutation.f2z7Tv/reports/mutation-report.json\[38;5;2mts/mutation-report.json[0m]8;;\
+[10:35:02 INF] Time Elapsed 00:00:12.3592447
+[10:35:02 INF] The final mutation score is 63.16 %
+[10:35:02 WRN] Final mutation score is below threshold break. Crashing...
+
+[38;5;9mThe mutation score is lower than the configured break threshold of 100 %.[0m
+ [38;5;9mLooks like you've got some work to do 😇[0m
+Mutation score (Domain,Application): 12/19 tested mutants detected = 63.15%, bar 100%

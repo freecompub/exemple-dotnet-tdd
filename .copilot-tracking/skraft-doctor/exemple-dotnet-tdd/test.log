@@ -1,0 +1,21 @@
+$ dotnet test --nologo
+cwd: .
+result: exited 0
+--- stdout
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  Tarification.Domaine -> /Users/b283ko/Projet/exemple-dotnet-tdd/src/Tarification.Domaine/bin/Debug/net10.0/Tarification.Domaine.dll
+  Tarification.Application -> /Users/b283ko/Projet/exemple-dotnet-tdd/src/Tarification.Application/bin/Debug/net10.0/Tarification.Application.dll
+  Tarification.Tests -> /Users/b283ko/Projet/exemple-dotnet-tdd/tests/Tarification.Tests/bin/Debug/net10.0/Tarification.Tests.dll
+  Tarification.UnitTests -> /Users/b283ko/Projet/exemple-dotnet-tdd/tests/Tarification.UnitTests/bin/Debug/net10.0/Tarification.UnitTests.dll
+Test run for /Users/b283ko/Projet/exemple-dotnet-tdd/tests/Tarification.Tests/bin/Debug/net10.0/Tarification.Tests.dll (.NETCoreApp,Version=v10.0)
+Test run for /Users/b283ko/Projet/exemple-dotnet-tdd/tests/Tarification.UnitTests/bin/Debug/net10.0/Tarification.UnitTests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+A total of 1 test files matched the specified pattern.
+
+Passed!  - Failed:     0, Passed:     2, Skipped:     0, Total:     2, Duration: 7 ms - Tarification.Tests.dll (net10.0)
+
+Passed!  - Failed:     0, Passed:     3, Skipped:     0, Total:     3, Duration: 29 ms - Tarification.UnitTests.dll (net10.0)
+
+--- stderr
+

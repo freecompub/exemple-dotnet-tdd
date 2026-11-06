@@ -2,5 +2,7 @@ bin/
 obj/
 *.user
 TestResults/
+StrykerOutput/
 *.feature.cs
 .copilot-tracking/skraft-plans/*/Issue.md
+skraft-config.local.json

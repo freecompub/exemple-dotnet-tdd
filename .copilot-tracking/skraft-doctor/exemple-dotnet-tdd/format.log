@@ -1,0 +1,7 @@
+$ dotnet format --verify-no-changes
+cwd: .
+result: exited 0
+--- stdout
+
+--- stderr
+

@@ -1,0 +1,30 @@
+{
+  "baseBranch": "main",
+  "components": [
+    {
+      "name": "exemple-dotnet-tdd",
+      "root": ".",
+      "stack": "dotnet",
+      "paths": {
+        "src": [
+          "src/"
+        ],
+        "tests": [
+          "tests/"
+        ]
+      },
+      "commands": {
+        "build": "dotnet build --nologo",
+        "test": "dotnet test --nologo",
+        "format": "dotnet format --verify-no-changes",
+        "mutation": "node \"/Users/b283ko/.copilot/installed-plugins/freecompub-skraft-plugin/skraft/skills/quality-gates-dotnet/scripts/mutation-core.mjs\" --root . --evidence .copilot-tracking/skraft-gates/mutation --since {baseSha}"
+      }
+    }
+  ],
+  "publish": {
+    "pullRequest": true,
+    "questionVersions": {
+      "pullRequest": 2
+    }
+  }
+}
