@@ -25,7 +25,8 @@ agents plusieurs fois sur du terrain neuf.
 | `.skraft/quality.json` | Barre de qualité : seuils de couverture et règles de dépendance. Le profil dit **comment lancer**, la barre dit **ce qui est exigé**. |
 | `src/Tarification.Domaine` | Règles métier. Ne dépend de **rien**. |
 | `src/Tarification.Application` | Cas d'usage. Dépend du domaine, et de lui seul. |
-| `tests/Tarification.Tests` | Tests unitaires et d'acceptance. |
+| `tests/Tarification.Tests` | Tests unitaires de validation des valeurs du domaine. |
+| `tests/Tarification.UnitTests` | Scénarios BDD exécutables avec Reqnroll + xUnit, sans dépendance externe. |
 
 ## Pré-requis
 
@@ -56,6 +57,21 @@ head -c 300 /tmp/rapport.xml      # un fichier doit exister, et contenir <testsu
 ```
 
 Si ce fichier n'apparaît pas, rien d'autre ne fonctionnera : reprendre par là.
+
+## Exécuter les tests BDD
+
+Depuis la racine du dépôt :
+
+```bash
+dotnet msbuild -t:TestBdd
+```
+
+La target `TestBdd` exécute uniquement les scénarios marqués `@bdd` du projet
+`Tarification.UnitTests`. Les trois critères de l'US-1 sont décrits dans
+`tests/Tarification.UnitTests/Features/panier-chiffrage.feature` et liés aux étapes Reqnroll.
+Ils remplacent les tests xUnit d'acceptance équivalents ; les validations des valeurs du domaine
+restent dans `Tarification.Tests`. `dotnet test` continue d'exécuter l'ensemble des tests.
+Pour la configuration Release : `dotnet msbuild -t:TestBdd -p:Configuration=Release`.
 
 ## S'en servir dans agent-studio
 

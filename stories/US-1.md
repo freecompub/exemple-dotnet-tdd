@@ -10,4 +10,4 @@ afin de comprendre ce que je paie avant d'aller plus loin.
 
 ## Notes
 Story **déjà livrée**, gardée comme référence de forme. Ses tests donnent aux portes une base
-verte : voir `tests/Tarification.Tests/CalculDuPanierTests.cs`.
+verte : voir `tests/Tarification.UnitTests/Features/panier-chiffrage.feature`.

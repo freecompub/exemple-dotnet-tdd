@@ -1,0 +1,5 @@
+<Project>
+  <Target Name="TestBdd">
+    <Exec Command="dotnet test &quot;$(MSBuildThisFileDirectory)tests/Tarification.UnitTests/Tarification.UnitTests.csproj&quot; --configuration &quot;$(Configuration)&quot; --nologo --filter &quot;Category=bdd&quot; -- RunConfiguration.TreatNoTestsAsError=true" />
+  </Target>
+</Project>

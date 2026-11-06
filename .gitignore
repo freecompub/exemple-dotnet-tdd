@@ -2,3 +2,5 @@ bin/
 obj/
 *.user
 TestResults/
+*.feature.cs
+.copilot-tracking/skraft-plans/*/Issue.md

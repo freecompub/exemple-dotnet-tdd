@@ -5,6 +5,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tarification.Application", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tarification.Tests", "tests\Tarification.Tests\Tarification.Tests.csproj", "{33333333-3333-3333-3333-333333333333}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tarification.UnitTests", "tests\Tarification.UnitTests\Tarification.UnitTests.csproj", "{FA6D2C9D-555C-48BC-8539-EE4C57D50C2E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,5 +19,9 @@ Global
 		{22222222-2222-2222-2222-222222222222}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{33333333-3333-3333-3333-333333333333}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{33333333-3333-3333-3333-333333333333}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA6D2C9D-555C-48BC-8539-EE4C57D50C2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA6D2C9D-555C-48BC-8539-EE4C57D50C2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA6D2C9D-555C-48BC-8539-EE4C57D50C2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA6D2C9D-555C-48BC-8539-EE4C57D50C2E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
