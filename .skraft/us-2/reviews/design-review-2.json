@@ -1,0 +1,57 @@
+[
+  {
+    "defects": [
+      {
+        "description": "La story dit « même référence », le modèle dit « ligne » partout (domain-model, diagrammes). L'équivalence ligne = référence n'est écrite nulle part en une phrase ; le lecteur la déduit du critère 4. Ajouter une courte définition.",
+        "file": ".skraft/us-2/design/domain-model.md",
+        "line": 35,
+        "occurrences": [
+          ".skraft/us-2/design/event-model.md:49"
+        ],
+        "severity": "minor",
+        "severityReason": "Terme cohérent avec la story et déductible, mais jamais explicité pour une personne du métier.",
+        "target": "deliverable",
+        "id": "cold-reader#2.1"
+      },
+      {
+        "description": "Le vocabulaire technique (requête, vue, cas d'usage, objet-valeur, Given/When/Then, citations fichier:ligne dans chaque phrase) alourdit la lecture pour le métier. Un petit glossaire en termes de la story (palier, taux, remise, ligne, panier, grille) manque.",
+        "file": ".skraft/us-2/design/contracts.md",
+        "line": 41,
+        "occurrences": [
+          ".skraft/us-2/design/event-model.md:8",
+          ".skraft/us-2/design/diagrams.md:6"
+        ],
+        "severity": "minor",
+        "severityReason": "Gêne de lecture sans contradiction avec la story ; les termes métier restent présents.",
+        "target": "deliverable",
+        "id": "cold-reader#2.2"
+      },
+      {
+        "description": "`IDepotDePaniers` / `Enregistre` n'apparaissent ni dans la story ni dans le code, et `ATPayer` n'est pas expliqué. Ils sont dans le modèle sans lien visible avec US-2.",
+        "file": ".skraft/us-2/design/contracts.md",
+        "line": 92,
+        "occurrences": [
+          ".skraft/us-2/design/domain-model.md:91",
+          ".skraft/us-2/design/contracts.md:61"
+        ],
+        "severity": "minor",
+        "severityReason": "Vocabulaire hors story sans effet sur les critères : source de confusion seulement.",
+        "target": "deliverable",
+        "id": "cold-reader#2.3"
+      }
+    ],
+    "lens": "cold-reader",
+    "verdict": "APPROVED"
+  },
+  {
+    "defects": [],
+    "lens": "test-integrity",
+    "verdict": "APPROVED"
+  },
+  {
+    "defects": [],
+    "lens": "architecture",
+    "rulings": [],
+    "verdict": "APPROVED"
+  }
+]
