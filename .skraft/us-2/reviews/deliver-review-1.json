@@ -1,0 +1,97 @@
+[
+  {
+    "defects": [
+      {
+        "description": "Noms peu parlants ou divergents : `Montant.Pour(Pourcentage)` ne dit pas qu'il calcule un pourcentage du montant (`Applique` ou `PourcentageDe` serait plus clair). `RemiseDe` existe deux fois avec des rôles proches (panier entier dans `CalculDuPanier`, ligne seule dans `GrilleDePaliers`). `Max()` sur des montants ne dit pas qu'on retient le palier au taux le plus élevé : un commentaire sur la raison manque.",
+        "file": "src/Tarification.Domaine/Montant.cs",
+        "line": 23,
+        "occurrences": [
+          "src/Tarification.Application/CalculDuPanier.cs:31",
+          "src/Tarification.Domaine/GrilleDePaliers.cs:15"
+        ],
+        "severity": "minor",
+        "severityReason": "Gêne de lecture pour un nouveau lecteur, sans erreur de comportement.",
+        "target": "code",
+        "id": "cold-reader#1.2"
+      }
+    ],
+    "lens": "cold-reader",
+    "verdict": "APPROVED",
+    "notes": [
+      {
+        "description": "Le commentaire de `Facture` dit que les remises restent à zéro tant que les stories ne sont pas livrées, alors que `Chiffrer` calcule maintenant la remise par palier. Seuls les frais de port restent à zéro. Le commentaire induit en erreur.",
+        "file": "src/Tarification.Application/CalculDuPanier.cs",
+        "line": 6,
+        "occurrences": [],
+        "severity": "minor",
+        "severityReason": "Commentaire périmé qui contredit le code voisin ; sans effet sur le comportement.",
+        "target": "code",
+        "id": "cold-reader#1.1"
+      }
+    ]
+  },
+  {
+    "defects": [],
+    "lens": "test-integrity",
+    "verdict": "APPROVED"
+  },
+  {
+    "defects": [
+      {
+        "description": "La règle « la remise du panier est la somme des remises calculées ligne par ligne » (ac-4) est implémentée dans le cas d'usage `CalculDuPanier.RemiseDe` (Application), par un `Aggregate` sur `panier.Lignes`. Le design ratifié prévoit `Panier.SommeDesRemises(GrilleDePaliers)` dans l'agrégat, sur le patron de `SommeDesLignes` ; l'invariant du panier doit vivre dans le domaine. `Panier.cs` n'a pas été étendu. ADR-001 range les règles commerciales dans le domaine et laisse à l'application l'orchestration. Déplacer la somme dans `Panier.SommeDesRemises(grille)` et faire appeler cette méthode par `Chiffrer`. Écarts de nommage mineurs par rapport aux contrats : `RemiseDe` au lieu de `RemisePour`, `Montant.Pour` au lieu de `Applique`.",
+        "file": "src/Tarification.Application/CalculDuPanier.cs",
+        "line": 31,
+        "severity": "major",
+        "severityReason": "Une règle commerciale d'agrégat fuit dans la couche application, contre ADR-001 et le modèle de DESIGN ; le comportement reste correct, et un refactoring le corrige.",
+        "target": "code",
+        "id": "architecture#1.1"
+      }
+    ],
+    "lens": "architecture",
+    "verdict": "CHANGES_REQUESTED"
+  },
+  {
+    "defects": [
+      {
+        "description": "Montant.Pour(taux) renvoie Euros * taux.Valeur / 100m sans arrondi au centime. Une remise peut donc porter des fractions de centime (ex. 5 % de 0,01 € × 10 = 0,005 €) qui entrent dans Remise et ATPayer. La règle choisie (« option la plus simple ») n'est ni nommée dans le code, ni documentée, ni testée.",
+        "file": "src/Tarification.Domaine/Montant.cs",
+        "line": 23,
+        "severity": "minor",
+        "severityReason": "Montant ligne modifiée par la phase, comportement non documenté sur une grandeur monétaire ; impact limité aux cas à fraction de centime.",
+        "target": "code",
+        "id": "quality-gates#1.2"
+      },
+      {
+        "description": "Montant.Pour construit directement new(...) sans passer par la garde de Montant.De. Avec un Pourcentage négatif (Pourcentage n'est pas validé), la remise devient un Montant négatif, ce que la doc de la classe (ligne 4-5) déclare impossible dans le domaine.",
+        "file": "src/Tarification.Domaine/Montant.cs",
+        "line": 23,
+        "severity": "minor",
+        "severityReason": "Contournement d'un invariant documenté sur une ligne modifiée, déclenché seulement par une entrée de taux négative non validée.",
+        "target": "code",
+        "id": "quality-gates#1.3"
+      }
+    ],
+    "lens": "quality-gates",
+    "verdict": "APPROVED",
+    "notes": [
+      {
+        "description": "Facture.ATPayer vaut SommeDesArticles + FraisDePort et ne déduit pas la Remise. Depuis cette phase, la remise est calculée (ligne 29), donc ATPayer surestime ce que le client doit payer lorsqu'un palier s'applique. Aucun test d'acceptance ne lit ATPayer, et les critères 1 à 5 ne le visent pas. La ligne 12 n'est pas modifiée par la phase : signalement à l'humain pour la prochaine story (ou pour trancher si ATPayer est hors US-2), sans renvoyer le travail.",
+        "file": "src/Tarification.Application/CalculDuPanier.cs",
+        "line": 12,
+        "severity": "minor",
+        "severityReason": "Ligne non modifiée par la phase, hors critères d'acceptance ; l'effet apparaît avec cette phase mais le correctif relève d'un choix de périmètre à faire par l'humain.",
+        "target": "code",
+        "id": "quality-gates#1.1"
+      },
+      {
+        "description": "La doc de Facture affirme que les remises restent à zéro tant que les stories ne sont pas livrées. Ce n'est plus vrai : la remise est désormais calculée par RemiseDe. Commentaire périmé (lignes 6 à 8, non modifiées par la phase : signalement à l'humain).",
+        "file": "src/Tarification.Application/CalculDuPanier.cs",
+        "line": 6,
+        "severity": "minor",
+        "severityReason": "Documentation trompeuse sur une ligne non modifiée par la phase ; sans effet sur le comportement.",
+        "target": "code",
+        "id": "quality-gates#1.4"
+      }
+    ]
+  }
+]

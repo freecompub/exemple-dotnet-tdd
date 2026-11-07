@@ -1,0 +1,61 @@
+[
+  {
+    "defects": [
+      {
+        "description": "Le même concept porte deux noms : `SommeDesArticles` côté Facture et `SommeDesLignes` côté Panier. `Montant.Zero` mélange aussi l'anglais et le français.",
+        "file": "src/Tarification.Application/CalculDuPanier.cs",
+        "line": 29,
+        "severity": "minor",
+        "severityReason": "Gêne de vocabulaire sans conséquence sur le comportement.",
+        "target": "code",
+        "id": "cold-reader#2.2"
+      }
+    ],
+    "lens": "cold-reader",
+    "verdict": "APPROVED",
+    "notes": [
+      {
+        "description": "`ATPayer` est un nom illisible (on dirait une coquille de « À payer »). Son calcul (SommeDesArticles + FraisDePort) ignore `Remise` sans que rien ne dise si c'est voulu. Le commentaire de la ligne 6 dit que les remises restent à zéro, alors que `Chiffrer` (ligne 29) calcule une remise réelle avec la grille. Le lecteur ne sait pas si la remise doit être déduite.",
+        "file": "src/Tarification.Application/CalculDuPanier.cs",
+        "line": 12,
+        "severity": "major",
+        "severityReason": "Le nom et le commentaire contredisent le comportement visible, et l'intention sur la remise est introuvable pour qui découvre le code.",
+        "target": "code",
+        "id": "cold-reader#2.1"
+      }
+    ]
+  },
+  {
+    "defects": [],
+    "lens": "test-integrity",
+    "verdict": "APPROVED"
+  },
+  {
+    "defects": [],
+    "lens": "architecture",
+    "rulings": [
+      {
+        "decision": "accepted",
+        "defect": "architecture#1.1",
+        "reason": "Panier.SommeDesRemises(grille) existe dans le domaine et CalculDuPanier.Chiffrer l'appelle. L'invariant est bien dans l'agrégat."
+      }
+    ],
+    "verdict": "APPROVED"
+  },
+  {
+    "defects": [],
+    "lens": "quality-gates",
+    "verdict": "APPROVED",
+    "notes": [
+      {
+        "description": "Le commentaire de la classe Facture affirme que « les remises et les frais de port restent à zéro tant que les stories correspondantes ne sont pas livrées ». Or US-2 est livrée : Chiffrer calcule désormais la remise (Panier.SommeDesRemises via la grille). Le commentaire est donc faux pour la remise. Les frais de port restent bien à zéro.",
+        "file": "src/Tarification.Application/CalculDuPanier.cs",
+        "line": 6,
+        "severity": "minor",
+        "severityReason": "Documentation trompeuse sur le comportement livré, sans effet sur l'exécution ni sur les tests verts.",
+        "target": "code",
+        "id": "quality-gates#2.1"
+      }
+    ]
+  }
+]
