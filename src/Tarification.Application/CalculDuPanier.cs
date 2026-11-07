@@ -18,5 +18,13 @@ public sealed record Facture(Montant SommeDesArticles, Montant Remise, Montant F
 /// </summary>
 public sealed class CalculDuPanier
 {
+    private readonly GrilleDePaliers _grille;
+
+    public CalculDuPanier() : this(GrilleDePaliers.Vide)
+    {
+    }
+
+    public CalculDuPanier(GrilleDePaliers grille) => _grille = grille;
+
     public Facture Chiffrer(Panier panier) => new(panier.SommeDesLignes(), Montant.Zero, Montant.Zero);
 }
