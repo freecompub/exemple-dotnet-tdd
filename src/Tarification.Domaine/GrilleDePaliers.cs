@@ -12,10 +12,10 @@ public sealed class GrilleDePaliers
     public static GrilleDePaliers De(params PalierDeQuantite[] paliers) => new(paliers);
 
     /// <summary>La remise d'une ligne : le palier atteint le plus avantageux, ou aucune remise.</summary>
-    public Montant RemiseDe(LigneDePanier ligne) =>
+    public Montant RemisePour(LigneDePanier ligne) =>
         _paliers
             .Where(p => ligne.Quantite.Valeur >= p.Seuil.Valeur)
-            .Select(p => ligne.SousTotal.Pour(p.Taux))
+            .Select(p => ligne.SousTotal.Applique(p.Taux))
             .DefaultIfEmpty(Montant.Zero)
             .Max();
 }

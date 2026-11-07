@@ -26,8 +26,5 @@ public sealed class CalculDuPanier
 
     public CalculDuPanier(GrilleDePaliers grille) => _grille = grille;
 
-    public Facture Chiffrer(Panier panier) => new(panier.SommeDesLignes(), RemiseDe(panier), Montant.Zero);
-
-    private Montant RemiseDe(Panier panier) =>
-        panier.Lignes.Aggregate(Montant.Zero, (total, ligne) => total + _grille.RemiseDe(ligne));
+    public Facture Chiffrer(Panier panier) => new(panier.SommeDesLignes(), panier.SommeDesRemises(_grille), Montant.Zero);
 }
