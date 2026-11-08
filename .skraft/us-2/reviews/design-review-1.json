@@ -1,0 +1,53 @@
+[
+  {
+    "defects": [
+      {
+        "description": "Plusieurs renvois vers domain-model.md pointent des lignes qui ne correspondent plus au contenu. Événements : `domain-model.md:64` mène à « Arguments nuls », alors que la section est à la ligne 75. Dépôts : `:66-70` est faux. ATPayer : `domain-model.md:76` est faux, la section est à la ligne 87. Le lecteur qui suit ces renvois tombe sur un autre sujet.",
+        "file": ".skraft/us-2/design/contracts.md",
+        "line": 9,
+        "occurrences": [
+          ".skraft/us-2/design/contracts.md:10",
+          ".skraft/us-2/design/contracts.md:42"
+        ],
+        "severity": "minor",
+        "severityReason": "Gêne de navigation uniquement ; le vocabulaire et le sens restent clairs.",
+        "target": "deliverable",
+        "id": "cold-reader#1.1"
+      },
+      {
+        "description": "La liste « points à trancher » demande de retirer des `ArgumentNullException` de contracts.md aux lignes 23, 85 et 94. contracts.md n'en contient plus et n'a pas autant de lignes. L'instruction est périmée et déroute un lecteur qui découvre le dossier.",
+        "file": ".skraft/us-2/design/adr-a-reconsiderer.md",
+        "line": 10,
+        "occurrences": [],
+        "severity": "minor",
+        "severityReason": "Reste d'une version précédente ; sans effet sur le modèle mais source de confusion.",
+        "target": "deliverable",
+        "id": "cold-reader#1.2"
+      },
+      {
+        "description": "Le jargon technique « Core », « ACL » et « Conformist » est employé sans définition. Il s'éloigne du langage de la story, que le métier ne partage pas. Le terme « Taux » du modèle n'est pas non plus relié explicitement au « pourcentage » de la story. « ATPayer » (nom existant du code) n'est pas expliqué comme « montant à payer ».",
+        "file": ".skraft/us-2/design/context-map.md",
+        "line": 5,
+        "occurrences": [
+          ".skraft/us-2/design/domain-model.md:85"
+        ],
+        "severity": "minor",
+        "severityReason": "Léger écart de vocabulaire ; le glossaire du contexte (palier, barème, remise d'une ligne) reste compréhensible par le métier.",
+        "target": "deliverable",
+        "id": "cold-reader#1.3"
+      }
+    ],
+    "lens": "cold-reader",
+    "verdict": "APPROVED"
+  },
+  {
+    "defects": [],
+    "lens": "test-integrity",
+    "verdict": "APPROVED"
+  },
+  {
+    "defects": [],
+    "lens": "architecture",
+    "verdict": "APPROVED"
+  }
+]
