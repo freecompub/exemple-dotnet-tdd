@@ -4,4 +4,6 @@ namespace Tarification.Domaine;
 public sealed record LigneDePanier(string Reference, Quantite Quantite, Montant PrixUnitaire)
 {
     public Montant SousTotal => PrixUnitaire.Multiplie(Quantite.Valeur);
+
+    public Montant Remise(BaremeDeRemises bareme) => SousTotal.Prend(bareme.TauxPour(Quantite));
 }

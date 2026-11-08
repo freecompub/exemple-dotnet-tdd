@@ -13,5 +13,8 @@ public sealed class Panier
         return this;
     }
 
+    public Montant RemiseTotale(BaremeDeRemises bareme) =>
+        _lignes.Aggregate(Montant.Zero, (total, l) => total + l.Remise(bareme));
+
     public Montant SommeDesLignes() => _lignes.Aggregate(Montant.Zero, (total, l) => total + l.SousTotal);
 }
