@@ -26,5 +26,5 @@ public sealed class CalculDuPanier
 
     public CalculDuPanier(BaremeDeRemises bareme) => _bareme = bareme;
 
-    public Facture Chiffrer(Panier panier) => new(panier.SommeDesLignes(), Montant.Zero, Montant.Zero);
+    public Facture Chiffrer(Panier panier) => new(panier.SommeDesLignes(), panier.RemiseTotale(_bareme), Montant.Zero);
 }
