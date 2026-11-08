@@ -18,5 +18,13 @@ public sealed record Facture(Montant SommeDesArticles, Montant Remise, Montant F
 /// </summary>
 public sealed class CalculDuPanier
 {
+    private readonly BaremeDeRemises _bareme;
+
+    public CalculDuPanier() : this(BaremeDeRemises.Aucun)
+    {
+    }
+
+    public CalculDuPanier(BaremeDeRemises bareme) => _bareme = bareme;
+
     public Facture Chiffrer(Panier panier) => new(panier.SommeDesLignes(), Montant.Zero, Montant.Zero);
 }
