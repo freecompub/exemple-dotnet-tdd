@@ -1,0 +1,57 @@
+[
+  {
+    "defects": [],
+    "lens": "cold-reader",
+    "verdict": "APPROVED",
+    "notes": [
+      {
+        "description": "Le nom de l'opération qui applique un taux à un montant est incohérent : domain-model.md:74 et :127 la nomment `Applique(TauxDeRemise)`, alors que contracts.md:107-108 dit que son nom est laissé à l'implémentation. Un lecteur ne sait pas si `Applique` est ferme.",
+        "file": "/tmp/essai-mcp-skraft-zqGCsb/projet/.skraft/us-2/design/contracts.md",
+        "line": 107,
+        "severity": "minor",
+        "severityReason": "Petite ambiguïté de nommage entre deux documents, sans effet sur le vocabulaire métier.",
+        "target": "deliverable",
+        "id": "cold-reader#1.1"
+      },
+      {
+        "description": "Faute de français et formulation lourde : « restant non négative » (Montant est masculin : « non négatif »). Le terme « Core » pour le contexte est aussi du jargon sans glose pour une personne du métier.",
+        "file": "/tmp/essai-mcp-skraft-zqGCsb/projet/.skraft/us-2/design/domain-model.md",
+        "line": 75,
+        "severity": "minor",
+        "severityReason": "Gêne de lecture mineure ; le sens reste compréhensible.",
+        "target": "deliverable",
+        "id": "cold-reader#1.2"
+      },
+      {
+        "description": "`AjouterUneLigne` et `LigneAjoutee` sont des termes absents de la story, qui ne parle que de « ligne » et de « panier ». Le document précise que l'événement est conceptuel, mais le lien avec le « Soit » de la story pourrait être dit plus tôt dans le modèle. `ATPayer` (nom existant du code) n'est pas expliqué.",
+        "file": "/tmp/essai-mcp-skraft-zqGCsb/projet/.skraft/us-2/design/event-model.md",
+        "line": 13,
+        "severity": "minor",
+        "severityReason": "Vocabulaire proche de la story et expliqué plus loin ; seule une glose manque.",
+        "target": "deliverable",
+        "id": "cold-reader#1.3"
+      }
+    ]
+  },
+  {
+    "defects": [],
+    "lens": "test-integrity",
+    "verdict": "APPROVED"
+  },
+  {
+    "defects": [],
+    "lens": "architecture",
+    "verdict": "APPROVED",
+    "notes": [
+      {
+        "description": "domain-model.md:25-26 : le document dit que les paliers de remise sont exigés dans le domaine par adr-001:25-26. Or ces lignes portent sur la visibilité de la dépendance dans le .csproj. Les paliers sont seulement cités comme exemple de règle à adr-001:8. La conclusion reste correcte ; seule la citation est imprécise (même citation dans adr-a-reconsiderer.md:7 et contracts.md:13).",
+        "file": "/tmp/essai-mcp-skraft-zqGCsb/projet/.skraft/us-2/design/adr-a-reconsiderer.md",
+        "line": 7,
+        "severity": "minor",
+        "severityReason": "Erreur de référence sans effet sur la structure ni sur la fidélité à l'ADR-001.",
+        "target": "deliverable",
+        "id": "architecture#1.1"
+      }
+    ]
+  }
+]
