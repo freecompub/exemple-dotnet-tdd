@@ -1,0 +1,80 @@
+[
+  {
+    "defects": [
+      {
+        "description": "Le scénario AC-3 écrit les paliers sous la forme abrégée « 10 : 5 % » et « 50 : 12 % », alors qu'AC-1 et AC-2 disent « 10 articles ou plus : 5 % ». Une personne du métier doit deviner que 10 est un nombre d'articles.",
+        "file": "tests/Tarification.UnitTests/Features/panier-remise-par-palier.feature",
+        "line": 26,
+        "severity": "minor",
+        "severityReason": "Le sens reste déductible du titre du scénario et des autres scénarios ; c'est une question de formulation.",
+        "target": "test",
+        "id": "cold-reader#2.1"
+      },
+      {
+        "description": "Le scénario AC-4 ne donne pas le prix des deux lignes de 6 articles (un prix caché de 1 € est fixé dans les étapes). AC-5 utilise de même « une ligne quelconque ». Le lecteur ne voit pas les valeurs du calcul.",
+        "file": "tests/Tarification.UnitTests/Features/panier-remise-par-palier.feature",
+        "line": 36,
+        "severity": "minor",
+        "severityReason": "La remise attendue est zéro quel que soit le prix, donc l'omission ne fausse pas la lecture.",
+        "target": "test",
+        "id": "cold-reader#2.2"
+      }
+    ],
+    "lens": "cold-reader",
+    "verdict": "APPROVED"
+  },
+  {
+    "defects": [
+      {
+        "description": "test-plan.md ne justifie toujours pas individuellement la requalification en non-régression du test hérité AC_1LeClientChiffreUneLigneDePlusieursArticles (US-1). Seuls AC_2 et AC_3 de US-1 le sont (lignes 22-23).",
+        "file": ".skraft/us-2/distill/test-plan.md",
+        "line": 21,
+        "severity": "minor",
+        "severityReason": "Le test est vert et ne pilote rien de US-2 : il n'y a pas de théâtre de test, seulement une justification manquante dans la documentation.",
+        "target": "deliverable",
+        "id": "test-integrity#2.1"
+      }
+    ],
+    "lens": "test-integrity",
+    "verdict": "APPROVED"
+  },
+  {
+    "defects": [],
+    "lens": "architecture",
+    "verdict": "APPROVED"
+  },
+  {
+    "defects": [
+      {
+        "description": "Non corrigé, noté pour l'humain : l'étape 3 pose « le taux le plus élevé parmi les atteints » comme règle, alors que test-plan.md:35 déclare les grilles non monotones non spécifiées. Le choix entre plus haut taux et plus haut seuil n'est ni consigné comme décision ni couvert par un test.",
+        "file": ".skraft/us-2/distill/impl-plan.md",
+        "line": 17,
+        "severity": "minor",
+        "severityReason": "Une règle appliquée sans décision explicite peut diverger de l'attendu métier, sans effet sur les scénarios actuels.",
+        "target": "deliverable",
+        "id": "quality-gates#2.1"
+      },
+      {
+        "description": "Non corrigé, noté pour l'humain : la liste des points non spécifiés omet la validation de la grille que l'utilisateur a laissée ouverte (seuil < 1, taux > 100 %). TauxDeRemise.De (src/Tarification.Domaine/TauxDeRemise.cs:11) ne rejette que les taux négatifs, donc un taux de 150 % passe sans erreur sans que le plan le dise.",
+        "file": ".skraft/us-2/distill/test-plan.md",
+        "line": 35,
+        "severity": "minor",
+        "severityReason": "Une validation silencieuse non documentée reste un angle mort, sans conséquence sur les tests actuels.",
+        "target": "deliverable",
+        "id": "quality-gates#2.2"
+      },
+      {
+        "description": "Non corrigé, noté pour l'humain : les décisions de l'utilisateur (grille unique pour toutes les références, remise seulement renseignée dans Facture.Remise) ne sont pas consignées dans le plan. Aucun scénario ni mention ne couvre le fait que Facture.ATPayer (src/Tarification.Application/CalculDuPanier.cs:12) ne déduit pas la remise.",
+        "file": ".skraft/us-2/distill/test-plan.md",
+        "line": 35,
+        "severity": "minor",
+        "severityReason": "Une conséquence métier visible pour le client n'est couverte par aucun test ni notée dans le plan ; décision déjà prise, sans retour de travail.",
+        "target": "deliverable",
+        "id": "quality-gates#2.3"
+      }
+    ],
+    "lens": "quality-gates",
+    "rulings": [],
+    "verdict": "APPROVED"
+  }
+]
