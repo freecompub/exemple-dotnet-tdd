@@ -10,4 +10,13 @@ public sealed class GrilleDePaliers
     public static GrilleDePaliers Vide { get; } = new([]);
 
     public static GrilleDePaliers De(params PalierDeQuantite[] paliers) => new(paliers);
+
+    /// <summary>Le taux le plus avantageux parmi les paliers atteints ; zéro si aucun ne l'est.</summary>
+    public TauxDeRemise TauxPour(Quantite quantite) =>
+        TauxDeRemise.De(
+            Paliers
+                .Where(palier => palier.Seuil.Valeur <= quantite.Valeur)
+                .Select(palier => palier.Taux.Pourcentage)
+                .DefaultIfEmpty(0m)
+                .Max());
 }

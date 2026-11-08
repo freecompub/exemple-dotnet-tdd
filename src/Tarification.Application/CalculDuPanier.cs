@@ -26,5 +26,5 @@ public sealed class CalculDuPanier
 
     public CalculDuPanier(GrilleDePaliers grille) => Grille = grille;
 
-    public Facture Chiffrer(Panier panier) => new(panier.SommeDesLignes(), Montant.Zero, Montant.Zero);
+    public Facture Chiffrer(Panier panier) => new(panier.SommeDesLignes(), panier.RemiseDesLignes(Grille), Montant.Zero);
 }
